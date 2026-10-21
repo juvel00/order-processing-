@@ -58,6 +58,6 @@ export const api = {
   getOrdersByUser: (userId) => fetch(`${API_BASE}/orders/user/${userId}`).then(handleResponse),
   getAllOrders: () => fetch(`${API_BASE}/orders`).then(handleResponse),
 
-  // UN SDG Impact
+  // Analytics & Impact
   getImpactSummary: () => fetch(`${API_BASE}/impact/summary`).then(handleResponse),
 };

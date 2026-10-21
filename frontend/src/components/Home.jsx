@@ -1,212 +1,149 @@
 import React from 'react';
 import {
-  Sprout,
+  ShoppingBag,
+  Truck,
   ShieldCheck,
-  TrendingUp,
-  Percent,
+  CreditCard,
   Clock,
   ArrowRight,
-  HeartHandshake,
-  Sparkles,
-  Layers,
-  Leaf
+  Flame,
+  Percent,
+  CheckCircle2,
+  Tag,
+  Star
 } from 'lucide-react';
 
-export default function Home({ onExplore, impactMetrics }) {
+const CATEGORY_TILES = [
+  { id: 'VEGETABLES', name: 'Fresh Vegetables', icon: '🥬', count: '100% Farm Fresh' },
+  { id: 'FRUITS', name: 'Fresh Fruits', icon: '🍎', count: 'Seasonal & Sweet' },
+  { id: 'GRAINS_PULSES', name: 'Grains & Pulses', icon: '🌾', count: 'Staple Essentials' },
+  { id: 'DAIRY', name: 'Dairy & Eggs', icon: '🥛', count: 'Pure & Organic' },
+  { id: 'HERBS_SPICES', name: 'Herbs & Seasoning', icon: '🌿', count: 'Aromatic Spices' },
+  { id: 'ORGANIC_HONEY', name: 'Organic & Honey', icon: '🍯', count: 'Raw & Natural' },
+  { id: 'PROCESSED_GOODS', name: 'Oils & Pantry', icon: '🫒', count: 'Cold Pressed & Pure' },
+];
+
+export default function Home({ onExplore, onSelectCategory }) {
   return (
-    <div className="space-y-16 pb-20">
+    <div className="space-y-12 pb-20">
       
-      {/* ── HERO SECTION ── */}
-      <section className="relative overflow-hidden rounded-3xl mx-4 sm:mx-6 lg:mx-8 mt-6 hero-mesh text-white shadow-2xl">
-        <div className="relative max-w-6xl mx-auto px-6 py-20 lg:py-28 flex flex-col items-center text-center">
+      {/* ── HERO BANNER ── */}
+      <section className="relative overflow-hidden rounded-3xl mx-4 sm:mx-6 lg:mx-8 mt-6 hero-gradient text-white shadow-xl">
+        <div className="relative max-w-6xl mx-auto px-6 py-16 sm:py-24 flex flex-col items-center text-center">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-200 text-xs font-semibold mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>UN SDG 2 (Zero Hunger) &amp; UN SDG 12 (Responsible Production)</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold mb-6">
+            <Flame className="w-4 h-4 text-amber-300" />
+            <span>Super Saver Week • Flat 25% Off Daily Essentials</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-4xl leading-tight">
-            Direct Producer-to-Consumer <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-amber-200 to-green-100">
-              Fair Farm Commerce
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-3xl leading-tight">
+            Fresh Grocery &amp; Daily Essentials <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-emerald-200 to-white">
+              Delivered Fast to Your Door
             </span>
           </h1>
 
-          <p className="mt-6 text-base sm:text-lg text-emerald-50 max-w-2xl leading-relaxed">
-            Eliminating broker exploitation in agriculture. Farmers receive <span className="font-bold text-white underline decoration-amber-400 decoration-2">90% of every sale</span>, 
-            consumers save up to 35%, and perishable produce is saved from farm waste through dynamic freshness clearance algorithms.
+          <p className="mt-5 text-sm sm:text-base text-indigo-100 max-w-xl leading-relaxed">
+            Shop best-quality farm vegetables, premium organic honey, cold-pressed cooking oils, and daily pantry staples at unbeatable wholesale prices.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <button
               onClick={onExplore}
-              className="flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-white text-farm-900 font-bold text-sm shadow-lg hover:bg-emerald-50 hover:scale-105 transition-all duration-200"
+              className="flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-white text-brand-900 font-extrabold text-sm shadow-xl hover:bg-slate-100 hover:scale-105 transition-all duration-200"
             >
-              <span>Explore Farm Produce</span>
+              <span>Start Shopping Now</span>
               <ArrowRight className="w-4 h-4" />
             </button>
-            <a
-              href="/swagger-ui.html"
-              target="_blank"
-              rel="noreferrer"
-              className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm backdrop-blur-md transition-colors"
+            <button
+              onClick={onExplore}
+              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/15 hover:bg-white/25 border border-white/20 text-white font-bold text-sm backdrop-blur-md transition-colors"
             >
-              Swagger REST Docs
-            </a>
+              <Tag className="w-4 h-4 text-amber-300" />
+              <span>View Flash Deals</span>
+            </button>
           </div>
 
-          {/* Impact Quick Strip */}
-          {impactMetrics && (
-            <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl text-left">
-              <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
-                <span className="text-xs text-emerald-200 font-medium">Direct Farmer Payout</span>
-                <p className="text-xl sm:text-2xl font-extrabold text-white mt-1">
-                  ₹{Number(impactMetrics.totalDirectFarmerEarnings || 0).toFixed(0)}
-                </p>
-                <span className="text-[10px] text-emerald-300 font-semibold">90% Direct Remuneration</span>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
-                <span className="text-xs text-amber-200 font-medium">Broker Markup Bypassed</span>
-                <p className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-1">
-                  ₹{Number(impactMetrics.estimatedMiddlemanCommissionEliminated || 0).toFixed(0)}
-                </p>
-                <span className="text-[10px] text-amber-200 font-semibold">Saved vs Retail Middlemen</span>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
-                <span className="text-xs text-green-200 font-medium">Waste Prevented</span>
-                <p className="text-xl sm:text-2xl font-extrabold text-white mt-1">
-                  {Number(impactMetrics.estimatedKgFoodWastePrevented || 0).toFixed(1)} kg
-                </p>
-                <span className="text-[10px] text-green-300 font-semibold">Via 25% Freshness Discounts</span>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
-                <span className="text-xs text-emerald-200 font-medium">Completed Orders</span>
-                <p className="text-xl sm:text-2xl font-extrabold text-white mt-1">
-                  {impactMetrics.totalOrdersCompleted || 0}
-                </p>
-                <span className="text-[10px] text-emerald-300 font-semibold">{impactMetrics.totalRegisteredFarmers || 0} Registered Producers</span>
-              </div>
+          {/* Quick Features Row */}
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl text-left">
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <span className="text-2xl">⚡</span>
+              <h4 className="font-bold text-sm text-white mt-1">Express Delivery</h4>
+              <p className="text-[11px] text-indigo-200 mt-0.5">Delivered fresh in under 30 minutes</p>
             </div>
-          )}
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <span className="text-2xl">🏷️</span>
+              <h4 className="font-bold text-sm text-white mt-1">Best Price Promise</h4>
+              <p className="text-[11px] text-indigo-200 mt-0.5">Direct source pricing without markups</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <span className="text-2xl">🌿</span>
+              <h4 className="font-bold text-sm text-white mt-1">100% Quality Check</h4>
+              <p className="text-[11px] text-indigo-200 mt-0.5">Strict quality grading on all produce</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <span className="text-2xl">💳</span>
+              <h4 className="font-bold text-sm text-white mt-1">Easy Payments</h4>
+              <p className="text-[11px] text-indigo-200 mt-0.5">UPI, Cards &amp; Cash on Delivery</p>
+            </div>
+          </div>
 
         </div>
       </section>
 
-      {/* ── UN SDG ALIGNMENT SPOTLIGHT ── */}
+      {/* ── SHOP BY CATEGORY ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-xs font-bold uppercase tracking-widest text-farm-600">Societal Impact</span>
-          <h2 className="text-3xl font-extrabold text-stone-900 mt-2">Mapped to UN Sustainable Development Goals</h2>
-          <p className="text-sm text-stone-600 mt-2">Addressing food supply chain inequality and post-harvest produce waste through software engineering.</p>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Shop by Category</h2>
+            <p className="text-xs text-slate-500 mt-0.5">Pick from our hand-picked assortment of premium groceries</p>
+          </div>
+          <button
+            onClick={onExplore}
+            className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
+          >
+            <span>See All Products</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* SDG 2 */}
-          <div className="p-8 rounded-3xl bg-gradient-to-br from-emerald-50/70 to-white border border-emerald-200 shadow-sm relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-emerald-600/30">
-              2
-            </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-full">
-              Target 2.3: Double Farmer Incomes
-            </span>
-            <h3 className="text-xl font-bold text-stone-900 mt-4">SDG 2: Zero Hunger &amp; Fair Livelihoods</h3>
-            <p className="text-stone-600 text-sm mt-3 leading-relaxed">
-              Traditional agricultural supply chains siphon 40%–70% of harvest value to middlemen, depressing smallholder income. 
-              <strong> FarmDirect guarantees 90% direct payout</strong> recorded immutable on each line item (<code className="text-xs bg-emerald-100 text-emerald-900 px-1 py-0.5 rounded">OrderItem.farmerEarning</code>).
-            </p>
-            <ul className="mt-6 space-y-2 text-xs font-medium text-stone-700">
-              <li className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                Direct bank settlement to farmer UPI accounts
-              </li>
-              <li className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                100% transparent pricing without opaque wholesale commission
-              </li>
-            </ul>
-          </div>
-
-          {/* SDG 12 */}
-          <div className="p-8 rounded-3xl bg-gradient-to-br from-amber-50/70 to-white border border-amber-200 shadow-sm relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-amber-600/30">
-              12
-            </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2.5 py-1 rounded-full">
-              Target 12.3: Halve Post-Harvest Food Loss
-            </span>
-            <h3 className="text-xl font-bold text-stone-900 mt-4">SDG 12: Responsible Consumption &amp; Production</h3>
-            <p className="text-stone-600 text-sm mt-3 leading-relaxed">
-              Prolonged warehouse transit and shelf stagnation rot tons of agricultural produce every year. 
-              FarmDirect tracks <code className="text-xs bg-amber-100 text-amber-900 px-1 py-0.5 rounded">harvestDate</code> and triggers an automated 
-              <strong> 25% Freshness-Saver clearance discount</strong> when produce hits its final 35% shelf life.
-            </p>
-            <ul className="mt-6 space-y-2 text-xs font-medium text-stone-700">
-              <li className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-600" />
-                Live shelf-life countdown on perishable produce cards
-              </li>
-              <li className="flex items-center gap-2">
-                <Percent className="w-4 h-4 text-amber-600" />
-                Automatic algorithmic price drop drives rapid consumer pickup before spoilage
-              </li>
-            </ul>
-          </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+          {CATEGORY_TILES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => onSelectCategory(cat.id)}
+              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center group"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 group-hover:bg-brand-50 flex items-center justify-center text-3xl mb-3 transition-colors">
+                {cat.icon}
+              </div>
+              <h4 className="font-bold text-xs text-slate-900 group-hover:text-brand-700 transition-colors">
+                {cat.name}
+              </h4>
+              <span className="text-[10px] text-slate-400 mt-0.5">{cat.count}</span>
+            </button>
+          ))}
         </div>
       </section>
 
-      {/* ── OOP PILLARS SHOWCASE ── */}
+      {/* ── PROMOTIONAL BANNER STRIP ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl bg-stone-900 text-white shadow-xl relative overflow-hidden">
-          <div className="max-w-2xl mb-8">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Object-Oriented Design</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mt-2">Built on Core OOP Principles in Java 21</h2>
-            <p className="text-stone-400 text-sm mt-2">Architecture demonstrated across backend entities, polymorphic payment strategies, and service abstractions.</p>
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center sm:text-left">
+            <span className="px-3 py-1 rounded-full bg-white/20 text-xs font-black uppercase tracking-wider">
+              Limited Time Deals
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black">Get Flat 25% Off on Fast-Moving Essentials</h3>
+            <p className="text-xs sm:text-sm text-amber-100 max-w-lg">
+              Stock up your kitchen with certified organic produce, authentic forest honey, and cold-pressed oils.
+            </p>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 rounded-2xl bg-stone-800/80 border border-stone-700">
-              <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm mb-3">
-                ENC
-              </div>
-              <h4 className="font-bold text-base text-white">Encapsulation</h4>
-              <p className="text-stone-400 text-xs mt-2 leading-relaxed">
-                Domain entities (<code className="text-emerald-300">Product</code>, <code className="text-emerald-300">Cart</code>, <code className="text-emerald-300">Order</code>) guard inventory with synchronized <code className="text-emerald-300">reduceStock()</code> and bean validation.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-stone-800/80 border border-stone-700">
-              <div className="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm mb-3">
-                INH
-              </div>
-              <h4 className="font-bold text-base text-white">Inheritance</h4>
-              <p className="text-stone-400 text-xs mt-2 leading-relaxed">
-                <code className="text-sky-300">BaseEntity</code> mapped superclass inherited by domain models; <code className="text-sky-300">Product</code> extended by <code className="text-sky-300">PerishableProduce</code> and <code className="text-sky-300">ProcessedProduce</code>.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-stone-800/80 border border-stone-700">
-              <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm mb-3">
-                PLY
-              </div>
-              <h4 className="font-bold text-base text-white">Polymorphism</h4>
-              <p className="text-stone-400 text-xs mt-2 leading-relaxed">
-                <code className="text-purple-300">PaymentStrategy</code> dynamically executes UPI, Card, or COD; polymorphic pricing adjusts perishable shelf-life discounts at runtime.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-stone-800/80 border border-stone-700">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm mb-3">
-                ABS
-              </div>
-              <h4 className="font-bold text-base text-white">Abstraction</h4>
-              <p className="text-stone-400 text-xs mt-2 leading-relaxed">
-                Service interfaces (<code className="text-amber-300">ProductService</code>, <code className="text-amber-300">OrderService</code>) completely decouple REST controllers from JPA persistence logic.
-              </p>
-            </div>
-          </div>
+          <button
+            onClick={onExplore}
+            className="px-6 py-3.5 rounded-2xl bg-white text-slate-900 font-black text-xs shadow-md hover:bg-slate-100 transition whitespace-nowrap"
+          >
+            Explore Deals →
+          </button>
         </div>
       </section>
 

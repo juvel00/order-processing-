@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmDirect — Academic Project Presentation (Java OOP & UN SDG)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    pre, code { font-family: 'JetBrains Mono', monospace; }
+    .slide { display: none; min-height: 80vh; }
+    .slide.active { display: flex; flex-direction: column; }
+    .slide-enter { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body class="bg-stone-950 text-stone-100 min-h-screen flex flex-col justify-between select-none">
+
+  <!-- Top Status Bar -->
+  <header class="border-b border-stone-800 bg-stone-900/60 backdrop-blur px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center font-bold text-white text-base">🌾</div>
+      <div>
+        <span class="font-extrabold text-sm text-stone-100">FarmDirect</span>
+        <span class="text-xs text-stone-400 ml-2 hidden sm:inline">OOP in Java &amp; UN SDG 2/12</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 text-xs font-semibold">
+      <span id="slide-indicator" class="text-emerald-400 font-mono bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800/60">Slide 1 / 16</span>
+      <button onclick="toggleFullscreen()" class="px-3 py-1 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 transition">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Main Slide Canvas -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-6 sm:p-10 flex flex-col justify-center">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active slide-enter" data-slide="1">
+      <div class="flex flex-col items-center text-center justify-center flex-1 py-12">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-xs font-semibold mb-6">
+          <span>🌍</span> Academic Project Presentation • UN SDG 2 &amp; 12
+        </div>
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white max-w-4xl leading-tight">
+          Farm<span class="text-emerald-500">Direct</span>
+        </h1>
+        <p class="text-xl sm:text-2xl font-bold text-stone-300 mt-3 max-w-2xl">
+          Direct Producer-to-Consumer Online Shopping System
+        </p>
+        <p class="text-stone-400 text-sm mt-4 max-w-xl leading-relaxed">
+          An Enterprise Java 21 &amp; Spring Boot Architecture eliminating intermediate brokers to guarantee 90% direct farmer remuneration and mitigate supply-chain food waste.
+        </p>
+
+        <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left w-full max-w-3xl">
+          <div class="p-3.5 rounded-xl bg-stone-900 border border-stone-800">
+            <span class="text-[10px] text-stone-400 font-semibold block uppercase">Course</span>
+            <span class="text-xs font-bold text-white">OOP in Java</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-900 border border-stone-800">
+            <span class="text-[10px] text-stone-400 font-semibold block uppercase">Core Backend</span>
+            <span class="text-xs font-bold text-white">Java 21 / Spring Boot 3</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-900 border border-stone-800">
+            <span class="text-[10px] text-stone-400 font-semibold block uppercase">Database</span>
+            <span class="text-xs font-bold text-white">H2 In-Memory (Zero Setup)</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-900 border border-stone-800">
+            <span class="text-[10px] text-stone-400 font-semibold block uppercase">Frontend</span>
+            <span class="text-xs font-bold text-white">React 18 + Tailwind CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Abstract -->
+    <div class="slide slide-enter" data-slide="2">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section A</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Abstract</h2>
+      <div class="mt-6 space-y-4 text-stone-300 text-sm sm:text-base leading-relaxed bg-stone-900/60 p-6 sm:p-8 rounded-2xl border border-stone-800">
+        <p>
+          In contemporary agricultural commerce, smallholder producers typically capture only a fraction (30%–60%) of final retail prices due to multi-layered intermediate brokerage. Simultaneously, prolonged transit across fragmented wholesale supply chains results in substantial post-harvest food waste.
+        </p>
+        <p>
+          <strong class="text-emerald-400">FarmDirect</strong> is an online shopping system engineered to bridge producers directly with end consumers. The system enforces two socio-economic guarantees:
+        </p>
+        <div class="grid sm:grid-cols-2 gap-4 mt-4 text-xs sm:text-sm">
+          <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-800/60">
+            <strong class="text-emerald-300 block text-base mb-1">90% Direct Farmer Payout (SDG 2.3)</strong>
+            Every transaction guarantees 90% direct disbursement to the cultivator’s bank account, eliminating arbitrary broker commission cuts.
+          </div>
+          <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-800/60">
+            <strong class="text-amber-300 block text-base mb-1">25% Freshness-Saver Discount (SDG 12.3)</strong>
+            Perishable produce reaching its final 35% of shelf life automatically triggers a dynamic 25% clearance discount to accelerate consumption before spoilage.
+          </div>
+        </div>
+        <p class="text-xs text-stone-400 pt-2">
+          Architected in compliance with OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction), the system is verified by unit and integration test suites.
+        </p>
+      </div>
+    </div>
+
+    <!-- Slide 3: Introduction - Purpose -->
+    <div class="slide slide-enter" data-slide="3">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section B.1</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Introduction: Purpose of the System</h2>
+      <div class="grid sm:grid-cols-3 gap-6 mt-8">
+        <div class="p-6 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-900/60 text-emerald-400 flex items-center justify-center font-bold text-lg">01</div>
+          <h3 class="font-bold text-base text-white">Direct Producer Remuneration</h3>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Eliminates multi-tiered commission agents by providing small farmers with autonomous catalog management, price setting, and guaranteed direct payments.
+          </p>
+        </div>
+        <div class="p-6 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-900/60 text-sky-400 flex items-center justify-center font-bold text-lg">02</div>
+          <h3 class="font-bold text-base text-white">Harvest Traceability for Consumers</h3>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Provides complete transparency regarding harvest dates, farm locations, cold-chain requirements, and organic certifications directly to consumers.
+          </p>
+        </div>
+        <div class="p-6 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-900/60 text-amber-400 flex items-center justify-center font-bold text-lg">03</div>
+          <h3 class="font-bold text-base text-white">Supply-Chain Spoilage Reduction</h3>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Incentivizes consumer acquisition of fresh perishable produce prior to expiration via dynamic price reductions, cutting post-harvest agricultural losses.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Introduction - Relevance & Scope -->
+    <div class="slide slide-enter" data-slide="4">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section B.2</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Relevance and Scope of the System</h2>
+      <div class="grid sm:grid-cols-2 gap-6 mt-6">
+        <div class="p-6 rounded-2xl bg-stone-900 border border-emerald-900/50 space-y-3">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">UN SDG 2: Zero Hunger</span>
+          <h3 class="text-lg font-bold text-white">Target 2.3: Double Smallholder Farmer Incomes</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            Directly maps to the UN goal of doubling agricultural productivity and incomes of small-scale food producers through secure, unhindered market access.
+          </p>
+          <div class="p-3 rounded-xl bg-emerald-950/40 text-[11px] text-emerald-200 border border-emerald-800/40">
+            System Implementation: Immutable 90% direct payout field on line items (<code class="text-white">OrderItem.farmerEarning</code>).
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-stone-900 border border-amber-900/50 space-y-3">
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">UN SDG 12: Responsible Consumption</span>
+          <h3 class="text-lg font-bold text-white">Target 12.3: Halve Post-Harvest Food Loss</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            Addresses retail food waste and post-harvest produce loss along supply chains through proactive algorithmic pricing.
+          </p>
+          <div class="p-3 rounded-xl bg-amber-950/40 text-[11px] text-amber-200 border border-amber-800/40">
+            System Implementation: Dynamic 25% discount activated when <code class="text-white">remainingDays &le; 35% of shelfLifeDays</code>.
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 p-4 rounded-xl bg-stone-900/50 border border-stone-800 text-xs text-stone-400">
+        <strong class="text-white">System Scope:</strong> Producer produce registration, customer shopping basket, multi-method payment execution, digital tax invoices, and real-time SDG impact analytics.
+      </div>
+    </div>
+
+    <!-- Slide 5: Problem Definition - Statement -->
+    <div class="slide slide-enter" data-slide="5">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section C.1</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Problem Definition: Problem Statement</h2>
+      <div class="grid sm:grid-cols-2 gap-6 mt-6">
+        <div class="p-6 rounded-2xl bg-rose-950/20 border border-rose-900/40 space-y-3">
+          <h3 class="text-base font-bold text-rose-300">The Middleman Squeeze</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            Small agricultural producers face 4 to 6 layers of intermediaries (village aggregators, commission agents, regional mandi operators, wholesale distributors, retail supermarkets). By the time produce reaches consumers:
+          </p>
+          <ul class="text-xs text-stone-400 space-y-1.5 list-disc pl-4">
+            <li>Retail prices are inflated by 100%–200%.</li>
+            <li>Farmers receive as little as 30%–50% of the consumer rupee.</li>
+            <li>Farmers bear all production risks while middlemen capture guaranteed margins.</li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-3">
+          <h3 class="text-base font-bold text-amber-300">Agricultural Spoilage &amp; Information Loss</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            Traditional distribution is plagued by prolonged cold storage bottlenecks and transit friction:
+          </p>
+          <ul class="text-xs text-stone-400 space-y-1.5 list-disc pl-4">
+            <li>Substantial post-harvest spoilage occurs before produce reaches store shelves.</li>
+            <li>Consumers lack freshness visibility and consume stale produce.</li>
+            <li>Unsold perishable items near expiry are dumped rather than proactively discounted.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Problem Definition - Objectives -->
+    <div class="slide slide-enter" data-slide="6">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section C.2</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Problem Definition: System Objectives</h2>
+      <div class="grid sm:grid-cols-2 gap-4 mt-6 text-xs sm:text-sm">
+        <div class="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2">
+          <div class="font-bold text-emerald-400">1. Pure Object-Oriented Engineering</div>
+          <p class="text-stone-400">
+            Construct an enterprise application strictly adhering to Encapsulation, Inheritance, Polymorphism, and Abstraction in modern Java 21.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2">
+          <div class="font-bold text-emerald-400">2. Direct Remuneration (SDG 2.3)</div>
+          <p class="text-stone-400">
+            Enforce a 90% direct payout model on every transaction, crediting the farmer's balance directly at checkout.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2">
+          <div class="font-bold text-emerald-400">3. Freshness-Saver Pricing (SDG 12.3)</div>
+          <p class="text-stone-400">
+            Formulate a polymorphic pricing algorithm that automatically calculates a 25% waste clearance discount on perishable items nearing their shelf life.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2">
+          <div class="font-bold text-emerald-400">4. Polymorphic Multi-Payment Processing</div>
+          <p class="text-stone-400">
+            Deploy the Strategy Design Pattern allowing runtime selection of UPI, Credit/Debit Card, or Cash on Delivery without conditionals in order logic.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2">
+          <div class="font-bold text-emerald-400">5. Zero-Configuration Database</div>
+          <p class="text-stone-400">
+            Configure an embedded, in-memory H2 database with automatic schema generation and realistic seed data for zero-friction evaluation.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2">
+          <div class="font-bold text-emerald-400">6. Modern Responsive UI</div>
+          <p class="text-stone-400">
+            Deliver a single-page React frontend with live cart counters, category filter pills, tax invoice modals, and an SDG impact dashboard.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Requirement Analysis -->
+    <div class="slide slide-enter" data-slide="7">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section D</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Requirement Analysis</h2>
+      <div class="grid sm:grid-cols-2 gap-6 mt-6">
+        <div class="p-5 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
+          <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">Functional Requirements (FR)</h3>
+          <ul class="text-xs text-stone-300 space-y-2 list-disc pl-4 leading-relaxed">
+            <li><strong>FR1 (Produce Registration):</strong> Producers can list perishable goods (harvest date, shelf life) and processed goods (packaging date, certifications).</li>
+            <li><strong>FR2 (Catalog &amp; Search):</strong> Consumers can browse produce, filter by agricultural categories, and search by keywords.</li>
+            <li><strong>FR3 (Shopping Basket):</strong> Real-time management of produce line items with stock validation and farmer payout calculations.</li>
+            <li><strong>FR4 (Order &amp; Checkout):</strong> Atomic inventory deduction and polymorphic payment strategy execution.</li>
+            <li><strong>FR5 (Impact Analytics):</strong> Continuous aggregation of total direct farmer payouts and kilograms of produce waste prevented.</li>
+          </ul>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
+          <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wider">Non-Functional Requirements (NFR)</h3>
+          <ul class="text-xs text-stone-300 space-y-2 list-disc pl-4 leading-relaxed">
+            <li><strong>Performance:</strong> Sub-50ms latency for catalog retrieval using in-memory H2 queries.</li>
+            <li><strong>Concurrency &amp; Data Integrity:</strong> Thread-safe stock reduction (<code class="text-white">synchronized reduceStock()</code>) to eliminate race conditions and overselling.</li>
+            <li><strong>Maintainability &amp; Modularity:</strong> Layered architecture with complete separation of concerns between Controller, Service, and Repository layers.</li>
+            <li><strong>Usability:</strong> Fully responsive interface with accessible touch targets, color-coded badges, and clear feedback toasts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Design - Architecture -->
+    <div class="slide slide-enter" data-slide="8">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section E.1</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">System Design: Tiered Architecture</h2>
+      <div class="mt-6 p-6 rounded-2xl bg-stone-900 border border-stone-800 font-mono text-xs sm:text-sm text-stone-300 leading-relaxed overflow-x-auto">
+<pre class="text-emerald-400">┌────────────────────────────────────────────────────────────────────────┐
+│               1. Presentation Tier (React 18 + Vite SPA)               │
+│  Components: Navbar, Marketplace, Basket, CheckoutModal, Invoices, SDG │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ HTTP / REST / JSON
+┌───────────────────────────────────▼────────────────────────────────────┐
+│              2. REST Controller Tier (Spring Web MVC)                  │
+│  ProductController  •  CartController  •  OrderController  •  Impact   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Abstraction Interface Calls
+┌───────────────────────────────────▼────────────────────────────────────┐
+│              3. Business Service Tier &amp; Strategy Pattern               │
+│  ProductService • CartService • OrderService • PaymentStrategyFactory  │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Spring Data JPA / Hibernate
+┌───────────────────────────────────▼────────────────────────────────────┐
+│              4. Domain Model &amp; Repository Persistence Tier             │
+│  BaseEntity, Product, Perishable, Processed, Farmer, Consumer, Order   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ JDBC Connection
+┌───────────────────────────────────▼────────────────────────────────────┐
+│              5. In-Memory Database: H2 Embedded Engine                 │
+└────────────────────────────────────────────────────────────────────────┘</pre>
+      </div>
+    </div>
+
+    <!-- Slide 9: Design - Class Hierarchy -->
+    <div class="slide slide-enter" data-slide="9">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section E.2</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">System Design: OOP Class Hierarchy</h2>
+      <div class="grid sm:grid-cols-3 gap-4 mt-6 text-xs">
+        <div class="p-4 rounded-2xl bg-stone-900 border border-emerald-900/60 space-y-2">
+          <div class="font-bold text-emerald-400 text-sm">Product Hierarchy (Inheritance)</div>
+          <div class="p-2.5 rounded-lg bg-stone-950 font-mono text-[11px] text-stone-300">
+            abstract class Product<br>
+            ├── PerishableProduce<br>
+            │   └── (+ harvestDate, shelfLifeDays, coldStorage)<br>
+            └── ProcessedProduce<br>
+                └── (+ processingMethod, packagingDate, expiry)
+          </div>
+          <p class="text-stone-400 text-[11px]">
+            Implements polymorphic pricing (<code class="text-emerald-300">calculateEffectivePrice()</code>).
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-stone-900 border border-sky-900/60 space-y-2">
+          <div class="font-bold text-sky-400 text-sm">User Hierarchy (Inheritance)</div>
+          <div class="p-2.5 rounded-lg bg-stone-950 font-mono text-[11px] text-stone-300">
+            class User (BaseEntity)<br>
+            ├── Farmer<br>
+            │   └── (+ farmName, upiId, creditEarnings())<br>
+            └── Consumer<br>
+                └── (+ deliveryAddress, loyaltyPoints)
+          </div>
+          <p class="text-stone-400 text-[11px]">
+            Uses JPA JOINED table strategy for specialized profile data.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-stone-900 border border-purple-900/60 space-y-2">
+          <div class="font-bold text-purple-400 text-sm">Payment Hierarchy (Polymorphism)</div>
+          <div class="p-2.5 rounded-lg bg-stone-950 font-mono text-[11px] text-stone-300">
+            interface PaymentStrategy<br>
+            ├── UpiPaymentStrategy<br>
+            ├── CardPaymentStrategy<br>
+            └── CashOnDeliveryStrategy
+          </div>
+          <p class="text-stone-400 text-[11px]">
+            Resolved dynamically via <code class="text-purple-300">PaymentStrategyFactory</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Code Snippets - Encapsulation -->
+    <div class="slide slide-enter" data-slide="10">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section F.1</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Code Snippets: Encapsulation &amp; Stock Guard</h2>
+      <div class="mt-4 p-4 rounded-2xl bg-stone-900 border border-stone-800 text-xs font-mono text-stone-300 overflow-x-auto">
+<pre><span class="text-emerald-400">// In Product.java: Encapsulating inventory state and thread-safe stock reduction</span>
+<span class="text-stone-500">@Entity</span>
+<span class="text-stone-500">@Table(name = "products")</span>
+<span class="text-purple-400">public abstract class</span> <span class="text-yellow-300">Product</span> <span class="text-purple-400">extends</span> <span class="text-yellow-300">BaseEntity</span> {
+
+    <span class="text-stone-500">@Min(value = 0, message = "Stock quantity cannot be negative")</span>
+    <span class="text-purple-400">private int</span> stockQuantity;
+
+    <span class="text-purple-400">public synchronized void</span> <span class="text-blue-400">reduceStock</span>(<span class="text-purple-400">int</span> quantity) {
+        <span class="text-purple-400">if</span> (quantity &lt;= 0) {
+            <span class="text-purple-400">throw new</span> <span class="text-yellow-300">IllegalArgumentException</span>(<span class="text-green-300">"Quantity must be positive."</span>);
+        }
+        <span class="text-purple-400">if</span> (<span class="text-purple-400">this</span>.stockQuantity &lt; quantity) {
+            <span class="text-purple-400">throw new</span> <span class="text-yellow-300">InsufficientStockException</span>(
+                <span class="text-green-300">"Insufficient stock for '"</span> + <span class="text-purple-400">this</span>.name + 
+                <span class="text-green-300">"'. Available: "</span> + <span class="text-purple-400">this</span>.stockQuantity + <span class="text-green-300">", Requested: "</span> + quantity
+            );
+        }
+        <span class="text-purple-400">this</span>.stockQuantity -= quantity;
+    }
+}</pre>
+      </div>
+      <p class="text-xs text-stone-400 mt-3">
+        <strong class="text-white">OOP Significance:</strong> Protects internal state invariants. No external caller can force inventory into negative deficit.
+      </p>
+    </div>
+
+    <!-- Slide 11: Code Snippets - Polymorphic Pricing -->
+    <div class="slide slide-enter" data-slide="11">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section F.2</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Code Snippets: Polymorphic Freshness Pricing</h2>
+      <div class="mt-4 p-4 rounded-2xl bg-stone-900 border border-stone-800 text-xs font-mono text-stone-300 overflow-x-auto">
+<pre><span class="text-emerald-400">// In PerishableProduce.java: Dynamic 25% discount to halve food waste (SDG 12.3)</span>
+<span class="text-stone-500">@Entity</span>
+<span class="text-stone-500">@DiscriminatorValue("PERISHABLE")</span>
+<span class="text-purple-400">public class</span> <span class="text-yellow-300">PerishableProduce</span> <span class="text-purple-400">extends</span> <span class="text-yellow-300">Product</span> {
+
+    <span class="text-stone-500">@Override</span>
+    <span class="text-purple-400">public boolean</span> <span class="text-blue-400">isClearanceDiscountApplied</span>() {
+        <span class="text-purple-400">long</span> remaining = getRemainingShelfLifeDays();
+        <span class="text-stone-500">// Triggers when 35% or less shelf life remains</span>
+        <span class="text-purple-400">return</span> remaining &gt; 0 &amp;&amp; remaining &lt;= <span class="text-yellow-300">Math</span>.ceil(shelfLifeDays * 0.35);
+    }
+
+    <span class="text-stone-500">@Override</span>
+    <span class="text-purple-400">public</span> <span class="text-yellow-300">BigDecimal</span> <span class="text-blue-400">calculateEffectivePrice</span>() {
+        <span class="text-purple-400">if</span> (isClearanceDiscountApplied()) {
+            <span class="text-purple-400">return</span> getBasePrice().multiply(<span class="text-purple-400">new</span> <span class="text-yellow-300">BigDecimal</span>(<span class="text-green-300">"0.75"</span>))
+                                 .setScale(2, <span class="text-yellow-300">RoundingMode</span>.HALF_UP);
+        }
+        <span class="text-purple-400">return</span> getBasePrice().setScale(2, <span class="text-yellow-300">RoundingMode</span>.HALF_UP);
+    }
+}</pre>
+      </div>
+      <p class="text-xs text-stone-400 mt-3">
+        <strong class="text-white">OOP Significance:</strong> Child classes implement their own pricing logic polymorphically without the cart or checkout service needing complex conditional type checking.
+      </p>
+    </div>
+
+    <!-- Slide 12: Code Snippets - Strategy Pattern -->
+    <div class="slide slide-enter" data-slide="12">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section F.3</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Code Snippets: Strategy Pattern (Payments)</h2>
+      <div class="mt-4 p-4 rounded-2xl bg-stone-900 border border-stone-800 text-xs font-mono text-stone-300 overflow-x-auto">
+<pre><span class="text-emerald-400">// In PaymentStrategyFactory.java: Decoupled strategy resolution</span>
+<span class="text-stone-500">@Component</span>
+<span class="text-purple-400">public class</span> <span class="text-yellow-300">PaymentStrategyFactory</span> {
+    <span class="text-purple-400">private final</span> <span class="text-yellow-300">Map</span>&lt;<span class="text-yellow-300">PaymentMethod</span>, <span class="text-yellow-300">PaymentStrategy</span>&gt; strategyMap = <span class="text-purple-400">new</span> <span class="text-yellow-300">EnumMap</span>&lt;&gt;(<span class="text-yellow-300">PaymentMethod</span>.class);
+
+    <span class="text-purple-400">public</span> <span class="text-blue-400">PaymentStrategyFactory</span>(<span class="text-yellow-300">List</span>&lt;<span class="text-yellow-300">PaymentStrategy</span>&gt; strategies) {
+        <span class="text-purple-400">for</span> (<span class="text-yellow-300">PaymentStrategy</span> strategy : strategies) {
+            strategyMap.put(strategy.getSupportedMethod(), strategy);
+        }
+        strategyMap.put(<span class="text-yellow-300">PaymentMethod</span>.DEBIT_CARD, strategyMap.get(<span class="text-yellow-300">PaymentMethod</span>.CREDIT_CARD));
+    }
+
+    <span class="text-purple-400">public</span> <span class="text-yellow-300">PaymentStrategy</span> <span class="text-blue-400">getStrategy</span>(<span class="text-yellow-300">PaymentMethod</span> method) {
+        <span class="text-yellow-300">PaymentStrategy</span> strategy = strategyMap.get(method);
+        <span class="text-purple-400">if</span> (strategy == <span class="text-purple-400">null</span>) <span class="text-purple-400">throw new</span> <span class="text-yellow-300">PaymentProcessingException</span>(<span class="text-green-300">"Unsupported method: "</span> + method);
+        <span class="text-purple-400">return</span> strategy;
+    }
+}</pre>
+      </div>
+      <p class="text-xs text-stone-400 mt-3">
+        <strong class="text-white">OOP Significance:</strong> Complies with the Open/Closed Principle. Adding a new payment mode requires only a new strategy class, leaving existing order code untouched.
+      </p>
+    </div>
+
+    <!-- Slide 13: Code Snippets - Service Abstraction -->
+    <div class="slide slide-enter" data-slide="13">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section F.4</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Code Snippets: Service Abstraction &amp; Remuneration</h2>
+      <div class="mt-4 p-4 rounded-2xl bg-stone-900 border border-stone-800 text-xs font-mono text-stone-300 overflow-x-auto">
+<pre><span class="text-emerald-400">// In OrderServiceImpl.java: Orchestrating transactional checkout and direct farmer payout</span>
+<span class="text-stone-500">@Override</span>
+<span class="text-purple-400">public</span> <span class="text-yellow-300">OrderResponse</span> <span class="text-blue-400">checkoutCart</span>(<span class="text-yellow-300">CheckoutRequest</span> request) {
+    <span class="text-yellow-300">Cart</span> cart = cartRepository.findByUserId(request.getUserId()).orElseThrow();
+
+    <span class="text-stone-500">// 1. Atomic inventory reduction</span>
+    <span class="text-purple-400">for</span> (<span class="text-yellow-300">CartItem</span> item : cart.getItems()) {
+        item.getProduct().reduceStock(item.getQuantity());
+    }
+
+    <span class="text-stone-500">// 2. Polymorphic payment execution via strategy</span>
+    <span class="text-yellow-300">PaymentResult</span> payment = paymentService.processOrderPayment(order, request.getPayment());
+
+    <span class="text-stone-500">// 3. UN SDG 2.3: Credit 90% direct payout to farmer entity</span>
+    <span class="text-purple-400">for</span> (<span class="text-yellow-300">OrderItem</span> item : order.getItems()) {
+        farmerRepository.findById(item.getFarmerId()).ifPresent(farmer -&gt; {
+            farmer.creditEarnings(item.getFarmerEarning()); <span class="text-stone-500">// 90% direct payout</span>
+            farmerRepository.save(farmer);
+        });
+    }
+    cart.clear();
+    <span class="text-purple-400">return</span> <span class="text-yellow-300">OrderResponse</span>.fromEntity(orderRepository.save(order));
+}</pre>
+      </div>
+      <p class="text-xs text-stone-400 mt-3">
+        <strong class="text-white">OOP Significance:</strong> The Controller interacts exclusively with the <code class="text-emerald-300">OrderService</code> abstraction, isolating web routing from persistence mechanics.
+      </p>
+    </div>
+
+    <!-- Slide 14: Output Screenshots -->
+    <div class="slide slide-enter" data-slide="14">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section G</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Output Screenshots &amp; Verification</h2>
+      <div class="grid sm:grid-cols-2 gap-4 mt-6 text-xs">
+        <div class="p-4 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+          <span class="font-bold text-emerald-400 block text-sm">1. Produce Market &amp; Freshness Saver</span>
+          <p class="text-stone-400">
+            Shows dynamic produce cards with countdown badges (e.g. <em>"⏰ 2 days left"</em>), 25% clearance discounts with original price strikethrough, and organic tags.
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+          <span class="font-bold text-emerald-400 block text-sm">2. Shopping Basket &amp; Fair Share</span>
+          <p class="text-stone-400">
+            Displays line item quantities with real-time computation of <strong>Farmer Direct Payout (90%)</strong> and estimated consumer savings vs. middleman markups.
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+          <span class="font-bold text-emerald-400 block text-sm">3. Slide-in Polymorphic Checkout</span>
+          <p class="text-stone-400">
+            Interactive modal allowing user to toggle between UPI (VPA input), Card (tokenized 16-digit masking), and Doorstep COD with instant order confirmation.
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+          <span class="font-bold text-emerald-400 block text-sm">4. UN SDG Analytics Dashboard</span>
+          <p class="text-stone-400">
+            Real-time metric counters tracking total direct farmer earnings, middleman commissions bypassed, and kilograms of produce saved from spoilage.
+          </p>
+        </div>
+      </div>
+      <div class="mt-4 p-3 rounded-xl bg-stone-900/60 border border-stone-800 text-xs text-stone-400 flex items-center justify-between">
+        <span>Swagger UI: <code class="text-emerald-300">http://localhost:8080/swagger-ui.html</code></span>
+        <span>H2 Database Console: <code class="text-emerald-300">http://localhost:8080/h2-console</code></span>
+      </div>
+    </div>
+
+    <!-- Slide 15: Conclusion -->
+    <div class="slide slide-enter" data-slide="15">
+      <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Section H</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Conclusion &amp; Future Scope</h2>
+      <div class="grid sm:grid-cols-2 gap-6 mt-6">
+        <div class="p-6 rounded-2xl bg-stone-900 border border-emerald-900/40 space-y-3">
+          <h3 class="font-bold text-base text-emerald-400">Key Project Takeaways</h3>
+          <ul class="text-xs text-stone-300 space-y-2 list-disc pl-4 leading-relaxed">
+            <li>Successfully translated complex societal challenges (UN SDG 2 &amp; 12) into a cohesive object-oriented software system.</li>
+            <li>Enforced strict Encapsulation, Multi-level Inheritance, and Polymorphic Strategy patterns in modern Java 21.</li>
+            <li>Delivered a dual-mode React 18 single-page application served seamlessly by Spring Boot.</li>
+            <li>100% automated test coverage across domain logic and REST API checkout transactions (11/11 tests passing).</li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
+          <h3 class="font-bold text-base text-sky-400">Future Enhancements</h3>
+          <ul class="text-xs text-stone-300 space-y-2 list-disc pl-4 leading-relaxed">
+            <li><strong>IoT Cold-Chain Telemetry:</strong> Ingestion of temperature and humidity readings during rural transit.</li>
+            <li><strong>Cluster-Based Delivery Optimization:</strong> Micro-depot algorithms for grouped electric-vehicle dispatches.</li>
+            <li><strong>Blockchain Harvest Provenance:</strong> Immutable distributed ledger recording harvest batch certificates and soil health data.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 16: Thank You / Q&A -->
+    <div class="slide slide-enter" data-slide="16">
+      <div class="flex flex-col items-center text-center justify-center flex-1 py-12">
+        <div class="w-16 h-16 rounded-3xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-3xl mb-6">
+          🌾
+        </div>
+        <h2 class="text-4xl sm:text-5xl font-black text-white">Thank You!</h2>
+        <p class="text-lg text-stone-400 mt-3 max-w-md">
+          Questions, Feedback &amp; Discussion from the Evaluation Committee
+        </p>
+
+        <div class="mt-8 p-6 rounded-2xl bg-stone-900 border border-stone-800 text-xs text-stone-400 max-w-lg w-full space-y-2 text-left">
+          <div class="flex justify-between">
+            <span class="text-stone-500">Project:</span>
+            <strong class="text-white">FarmDirect P2C Online Shopping System</strong>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-stone-500">Architecture:</span>
+            <span class="text-white">Java 21 • Spring Boot 3.4.2 • React 18</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-stone-500">UN SDG Alignment:</span>
+            <span class="text-emerald-400 font-semibold">Goal 2 (Target 2.3) &amp; Goal 12 (Target 12.3)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-stone-500">Live URL:</span>
+            <span class="text-white">http://localhost:8080</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Slide Navigation Controls -->
+  <footer class="border-t border-stone-800 bg-stone-900/80 backdrop-blur px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <button onclick="prevSlide()" class="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-xs transition flex items-center gap-1">
+        <span>← Previous</span>
+      </button>
+      <button onclick="nextSlide()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center gap-1 shadow-md shadow-emerald-700/20">
+        <span>Next →</span>
+      </button>
+    </div>
+
+    <!-- Quick Jump Dots -->
+    <div class="hidden md:flex items-center gap-1.5" id="slide-dots">
+      <!-- Injected by JS -->
+    </div>
+
+    <div class="text-xs text-stone-500 font-medium">
+      Use <kbd class="px-1.5 py-0.5 rounded bg-stone-800 text-stone-300 font-mono">←</kbd> and <kbd class="px-1.5 py-0.5 rounded bg-stone-800 text-stone-300 font-mono">→</kbd> keys to navigate
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 16;
+
+    function updateSlide() {
+      document.querySelectorAll('.slide').forEach((el) => {
+        el.classList.remove('active');
+        if (parseInt(el.dataset.slide) === currentSlide) {
+          el.classList.add('active');
+        }
+      });
+
+      document.getElementById('slide-indicator').textContent = `Slide ${currentSlide} / ${totalSlides}`;
+      updateDots();
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      updateSlide();
+    }
+
+    function createDots() {
+      const container = document.getElementById('slide-dots');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === currentSlide ? 'bg-emerald-400 w-6' : 'bg-stone-700 hover:bg-stone-500'}`;
+        dot.onclick = () => goToSlide(i);
+        dot.title = `Go to Slide ${i}`;
+        container.appendChild(dot);
+      }
+    }
+
+    function updateDots() {
+      const dots = document.getElementById('slide-dots').children;
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = `w-2.5 h-2.5 rounded-full transition-all ${i + 1 === currentSlide ? 'bg-emerald-400 w-6' : 'bg-stone-700 hover:bg-stone-500'}`;
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'Home') {
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides);
+      }
+    });
+
+    createDots();
+  </script>
+</body>
+</html>
