@@ -16,7 +16,13 @@ const SEED_USERS = [
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('tab') || 'home';
+    }
+    return 'home';
+  });
   const [currentUser, setCurrentUser] = useState(SEED_USERS[0]);
   
   // Search & Category Filters state shared across views
@@ -34,7 +40,13 @@ export default function App() {
   const [loadingOrders, setLoadingOrders] = useState(false);
 
   // Modals
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('checkout') === 'true';
+    }
+    return false;
+  });
 
   // Toast notifications
   const [toasts, setToasts] = useState([]);

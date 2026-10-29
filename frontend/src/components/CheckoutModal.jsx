@@ -18,7 +18,7 @@ export default function CheckoutModal({
   onCheckoutSuccess,
   showToast,
 }) {
-  if (!isOpen) return null;
+  if (!isOpen || !cart) return null;
 
   const [deliveryAddress, setDeliveryAddress] = useState(
     currentUser?.address || 'Flat 402, Green Meadows Apartment, Indiranagar, Bengaluru - 560038'
