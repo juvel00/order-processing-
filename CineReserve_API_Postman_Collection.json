@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "c1f8a924-8b6e-4f11-9a73-3c9f28a7e001",
+		"name": "CineReserve — Cinema Theater Seat Booking API Collection",
+		"description": "Postman API Collection for CineReserve — Enterprise Cinema Theater Seat Booking System (Java OOP / Strategy Pattern)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Get All Active Movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/movies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies"]
+						}
+					}
+				},
+				{
+					"name": "Get Movies by Genre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/movies?genre=SCI_FI",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies"],
+							"query": [
+								{ "key": "genre", "value": "SCI_FI" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Search Movies by Keyword",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/movies?search=Interstellar",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies"],
+							"query": [
+								{ "key": "search", "value": "Interstellar" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Showtimes & Seat Map",
+			"item": [
+				{
+					"name": "Get All Scheduled Showtimes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/showtimes",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "showtimes"]
+						}
+					}
+				},
+				{
+					"name": "Get Showtime Interactive Seat Grid (with Polymorphic Tier Pricing)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/showtimes/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "showtimes", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Bookings & Payment Strategy",
+			"item": [
+				{
+					"name": "Create Booking (UPI Payment Strategy)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"showtimeId\": 1,\n  \"customerId\": 1,\n  \"showtimeSeatIds\": [3, 4],\n  \"payment\": {\n    \"paymentMethod\": \"UPI\",\n    \"upiId\": \"rahul.sharma@okaxis\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings"]
+						}
+					}
+				},
+				{
+					"name": "Create Booking (Credit/Debit Card Strategy)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"showtimeId\": 1,\n  \"customerId\": 1,\n  \"showtimeSeatIds\": [11, 12],\n  \"payment\": {\n    \"paymentMethod\": \"CARD\",\n    \"cardNumber\": \"4532892311029942\",\n    \"cardHolderName\": \"Rahul Sharma\",\n    \"expiryMonth\": 12,\n    \"expiryYear\": 2028,\n    \"cvv\": \"842\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings"]
+						}
+					}
+				},
+				{
+					"name": "Get Bookings for Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/customer/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings", "customer", "1"]
+						}
+					}
+				},
+				{
+					"name": "Cancel Booking (Releases Seats)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/1/cancel",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings", "1", "cancel"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Get Theater Box Office & Occupancy Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "stats"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}

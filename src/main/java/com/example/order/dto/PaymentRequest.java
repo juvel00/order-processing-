@@ -6,30 +6,30 @@ import jakarta.validation.constraints.NotNull;
 
 public class PaymentRequest {
 
-    @Schema(description = "Payment method", example = "UPI")
+    @Schema(description = "Payment method (CARD, UPI, NET_BANKING)", example = "UPI")
     @NotNull(message = "Payment method is required")
     private PaymentMethod paymentMethod;
 
-    @Schema(description = "UPI ID (Required for UPI payments)", example = "farmerdirect@okaxis")
+    @Schema(description = "UPI ID / VPA (Required for UPI payments)", example = "user@oksbi")
     private String upiId;
 
-    @Schema(description = "Card number (Required for Card payments)", example = "4111222233334444")
+    @Schema(description = "16-digit card number (Required for Card payments)", example = "4111222233334444")
     private String cardNumber;
 
-    @Schema(description = "Card holder name", example = "John Doe")
+    @Schema(description = "Card holder name", example = "Rahul Sharma")
     private String cardHolderName;
 
-    @Schema(description = "Expiry month (1-12)", example = "12")
+    @Schema(description = "Card expiration month (1-12)", example = "12")
     private Integer expiryMonth;
 
-    @Schema(description = "Expiry year (e.g. 2028)", example = "2028")
+    @Schema(description = "Card expiration year (e.g., 2028)", example = "2028")
     private Integer expiryYear;
 
-    @Schema(description = "Card CVV", example = "123")
+    @Schema(description = "Card CVV (3-4 digits)", example = "123")
     private String cvv;
 
-    @Schema(description = "Delivery / COD instructions", example = "Keep exact change ready")
-    private String notes;
+    @Schema(description = "Bank code / name (Required for Net Banking)", example = "HDFC_BANK")
+    private String bankName;
 
     public PaymentRequest() {
     }
@@ -90,11 +90,11 @@ public class PaymentRequest {
         this.cvv = cvv;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 }

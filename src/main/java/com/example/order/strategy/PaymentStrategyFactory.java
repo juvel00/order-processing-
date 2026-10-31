@@ -1,35 +1,33 @@
 package com.example.order.strategy;
 
-import com.example.order.exception.PaymentProcessingException;
 import com.example.order.model.enums.PaymentMethod;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Factory class resolving payment strategies polymorphically at runtime.
+ * PaymentStrategyFactory encapsulates strategy discovery and runtime resolution.
+ * Demonstrates the Factory and Strategy OOP design patterns.
  */
 @Component
 public class PaymentStrategyFactory {
 
-    private final Map<PaymentMethod, PaymentStrategy> strategyMap = new EnumMap<>(PaymentMethod.class);
+    private final Map<PaymentMethod, PaymentStrategy> strategies = new EnumMap<>(PaymentMethod.class);
 
-    public PaymentStrategyFactory(List<PaymentStrategy> strategies) {
-        for (PaymentStrategy strategy : strategies) {
-            strategyMap.put(strategy.getSupportedMethod(), strategy);
-        }
-        // DEBIT_CARD reuses card payment strategy
-        PaymentStrategy cardStrategy = strategyMap.get(PaymentMethod.CREDIT_CARD);
-        if (cardStrategy != null) {
-            strategyMap.put(PaymentMethod.DEBIT_CARD, cardStrategy);
+    @Autowired
+    public PaymentStrategyFactory(List<PaymentStrategy> strategyList) {
+        for (PaymentStrategy strategy : strategyList) {
+            strategies.put(strategy.getSupportedMethod(), strategy);
         }
     }
 
     public PaymentStrategy getStrategy(PaymentMethod method) {
-        PaymentStrategy strategy = strategyMap.get(method);
+        PaymentStrategy strategy = strategies.get(method);
         if (strategy == null) {
-            throw new PaymentProcessingException("Unsupported payment method: " + method);
+            throw new IllegalArgumentException("Unsupported payment method: " + method);
         }
         return strategy;
     }

@@ -1,11 +1,10 @@
-# Academic Project Report: Order Processing System
-## Enterprise Order Processing & Direct Remuneration System
+# Academic Project Report: Cinema Theater Seat Booking System
+## CineReserve — Enterprise Cinema Auditorium & Real-Time Seat Reservation Platform
 
 ---
 
 **Course Title:** Object-Oriented Programming (OOP) in Java  
-**Domain:** Enterprise E-Commerce / Order Processing & Supply Chain Systems  
-**Target UN SDGs:** SDG 2 (Zero Hunger) & SDG 12 (Responsible Consumption and Production)  
+**Domain:** Cinema Theater Automation / Real-Time Reservation & Payment Systems  
 **Implementation Stack:** Java 21, Spring Boot 3.4.2, Spring Data JPA, H2 In-Memory DB, React 18, Vite, Tailwind CSS, SpringDoc OpenAPI (Swagger UI)  
 
 ---
@@ -26,22 +25,17 @@
    - [1. Tiered Architectural Design](#1-tiered-architectural-design)
    - [2. Object-Oriented Class Hierarchy (Mermaid Diagram)](#2-object-oriented-class-hierarchy)
    - [3. Polymorphic Payment Strategy Pattern (Mermaid Diagram)](#3-polymorphic-payment-strategy-pattern)
-   - [4. Transactional Checkout Sequence (Mermaid Diagram)](#4-transactional-checkout-sequence)
+   - [4. Transactional Booking Sequence (Mermaid Diagram)](#4-transactional-booking-sequence)
    - [5. Database Schema & Persistence Model](#5-database-schema--persistence-model)
 6. [f) Code Snippets (OOP Pillars Demonstration)](#f-code-snippets)
    - [1. Encapsulation & Domain Invariants](#1-encapsulation--domain-invariants)
    - [2. Multi-Tier Inheritance](#2-multi-tier-inheritance)
-   - [3. Polymorphism & Dynamic Freshness Discounting](#3-polymorphism--dynamic-freshness-discounting)
+   - [3. Polymorphism & Dynamic Tier Pricing](#3-polymorphism--dynamic-tier-pricing)
    - [4. Strategy Design Pattern for Payments](#4-strategy-design-pattern-for-payments)
-   - [5. Abstraction & Transaction Service Orchestration](#5-abstraction--transaction-service-orchestration)
-7. [g) Output Screenshots (Real Captured Outputs)](#g-output-screenshots)
-   - [1. Home Dashboard & Live Impact Counters](#1-home-dashboard--live-impact-counters)
-   - [2. Product Catalog with Dynamic Freshness Discounts](#2-product-catalog-with-dynamic-freshness-discounts)
-   - [3. Shopping Cart & Producer Direct Remuneration Breakdown](#3-shopping-cart--producer-direct-remuneration-breakdown)
-   - [4. Polymorphic Checkout Strategy Modal](#4-polymorphic-checkout-strategy-modal)
-   - [5. Order History & Invoice Management](#5-order-history--invoice-management)
-   - [6. Interactive Swagger UI OpenAPI Documentation](#6-interactive-swagger-ui-openapi-documentation)
-   - [7. Embedded H2 Database Console](#7-embedded-h2-database-console)
+   - [5. Abstraction & Service Orchestration](#5-abstraction--service-orchestration)
+7. [g) Test Execution & Output Results](#g-test-execution--output-results)
+   - [1. Automated Test Execution](#1-automated-test-execution)
+   - [2. User Interface Views](#2-user-interface-views)
 8. [h) Conclusion](#h-conclusion)
    - [1. Key Project Accomplishments](#1-key-project-accomplishments)
    - [2. Critical Learnings](#2-critical-learnings)
@@ -51,145 +45,119 @@
 
 ## a) Abstract
 
-Modern retail distribution and order fulfillment networks are plagued by lengthy intermediation chains, where brokers, wholesalers, and retail aggregators extract between 40% to 70% of end-consumer expenditures. Simultaneously, rigid ordering and distribution pipelines cause post-harvest and perishable commodity losses exceeding 30% prior to retail consumption. The **Order Processing System** is an enterprise-grade, direct producer-to-consumer order management platform engineered in Java 21 and Spring Boot 3.4.2 to dismantle these structural inefficiencies.
+Modern multiplex theaters and performing art centers operate under high-throughput conditions where hundreds of patrons simultaneously attempt to reserve premium seating for blockbuster screenings. Traditional and legacy ticketing systems suffer from data concurrency failures (double-booking race conditions), rigid flat-rate pricing models unable to adjust for seat comfort tiers (standard, premium acoustic, VIP motorized recliners), and clunky payment integrations.
 
-The system implements two socio-economic and algorithmic innovations aligned with the United Nations Sustainable Development Goals:
-1. **Guaranteed 90% Direct Producer Remuneration (UN SDG 2 - Zero Hunger - Target 2.3):** Eliminating predatory intermediary brokerage fees by programmatically guaranteeing that 90% of order line-item gross value is credited directly to verified producer accounts upon checkout.
-2. **Dynamic Freshness-Saver Clearance Algorithm (UN SDG 12 - Responsible Consumption & Production - Target 12.3):** An automated algorithmic pricing model that detects when perishable items enter the terminal 35% of their shelf life and applies a polymorphic 25% discount to accelerate inventory turnover and prevent food waste.
+**CineReserve** is an enterprise-grade cinema theater seat booking application engineered in Java 21 and Spring Boot 3.4.2 designed to resolve these operational bottlenecks. The platform introduces:
+1. **Atomic Invariant Seat Protection:** Strictly prevents double booking race conditions through transactional domain encapsulation (`ShowtimeSeat.book()`).
+2. **Polymorphic Tiered Seating & Prime-Time Pricing:** Dynamic pricing calculation that dynamically scales ticket rates based on seat tier multipliers ($1.0\times$ for Standard, $1.35\times$ for Premium with acoustic positioning, and $1.80\times$ for VIP Recliners with complimentary snack perks) plus evening prime-time surge.
+3. **Pluggable Multi-Channel Checkout:** Implements the Gang-of-Four **Strategy Design Pattern** to seamlessly process Credit/Debit Cards, UPI, and Net Banking.
 
-From a software engineering perspective, the system serves as a reference implementation for Object-Oriented Programming (OOP) principles. It leverages strict **Encapsulation** across business invariants, multi-level **Inheritance** across user and product hierarchies, runtime **Polymorphism** via the **Strategy Design Pattern** for pluggable multi-channel payment processing (UPI, Card, Cash-on-Delivery) and dynamic pricing, and clean service-layer **Abstraction** isolating Spring Data JPA persistence. The Order Processing System provides a unified, zero-configuration fullstack architecture featuring an embedded H2 database, interactive React 18 frontend, and comprehensive OpenAPI 3 (Swagger UI) documentation.
+From an academic perspective, CineReserve serves as an exemplary showcase of Object-Oriented Programming (OOP) principles. It leverages strict **Encapsulation** across business invariants, multi-level **Inheritance** across user and seating hierarchies, runtime **Polymorphism** via the Strategy Design Pattern and pricing algorithms, and clean service-layer **Abstraction** isolating Spring Data JPA persistence. CineReserve is deployed as a single, zero-configuration fullstack architecture featuring an embedded H2 database, interactive 2D React 18 seat-matrix frontend, and comprehensive OpenAPI 3 (Swagger UI) documentation.
 
 ---
 
 ## b) Introduction
 
 ### 1. Purpose of the System
-The primary mission of the **Order Processing System** is to replace predatory multi-tier supply chains with an equitable, transparent, and algorithmic digital order processing engine. Traditional order pipelines force smallholder producers into price-taking positions where commission agents dictate below-cost liquidation, while consumers pay inflated retail markups for degraded products.
-
-The system achieves four overarching purposes:
-- **Direct Financial Empowerment:** Provides producers with a direct order fulfillment engine where they configure produce listings, determine unit prices, and receive direct digital remittances without intermediary deductions.
-- **Supply Chain Traceability:** Empowers end consumers to inspect origin farms, harvest dates, cold-chain handling requirements, and organic certifications for every line item.
-- **Algorithmic Waste Mitigation:** Employs programmatic inventory clearance pricing to intercept fresh goods before expiration, aligning commercial order processing with environmental sustainability.
-- **Academic Rigor & OOP Demonstration:** Bridges academic computer science principles with real-world enterprise engineering by applying Object-Oriented Design Patterns, domain-driven persistence, and RESTful micro-architectures.
+The primary mission of **CineReserve** is to deliver a robust, fault-tolerant, and intuitive theater seat booking and box office management system. The platform fulfills four overarching purposes:
+- **Concurrency & Double-Booking Elimination:** Guarantees that once a seat is confirmed by a patron, it is instantaneously transitioned to `BOOKED` within an ACID transaction, preventing overlapping reservations.
+- **Dynamic Tier & Acoustic Value Proposition:** Allows patrons to choose seating based on comfort preferences—from affordable front-row standard seats to prime acoustic premium rows and luxury motorized VIP recliners.
+- **Frictionless Digital Checkout:** Offers unified multi-rail checkout through the Strategy Pattern, accommodating modern digital payment methods.
+- **Academic Rigor & OOP Demonstration:** Serves as a reference implementation of Object-Oriented Software Engineering, cleanly isolating business models from presentation and storage layers.
 
 ### 2. Relevance and Scope of the System
-
-#### United Nations Sustainable Development Goals (SDG) Alignment
-The Order Processing System operationalizes two UN global sustainability goals:
-
-| UN Sustainable Development Goal | Specific Target | System Implementation in Order Processing System |
-| :--- | :--- | :--- |
-| **SDG 2: Zero Hunger** | **Target 2.3:** Double agricultural productivity and incomes of small-scale food producers through secure and equal access to markets. | **Direct Producer Remuneration Engine:** Every order transaction enforces a 90% gross payout directly credited to the producer's ledger balance (`OrderItem.farmerEarning`), bypassing broker commissions. |
-| **SDG 12: Responsible Consumption and Production** | **Target 12.3:** Halve per capita global food waste at the retail and consumer levels and reduce food losses along production and supply chains. | **Dynamic Freshness-Saver Clearance Engine:** Products nearing their terminal shelf life ($\le 35\%$ remaining duration) automatically trigger a 25% discount (`calculateEffectivePrice()`) to encourage prompt purchase and consumption. |
-
-#### System Scope
-- **Producer Profile Management:** Registration of producer details, organic certifications, direct UPI/bank handles, crop harvest batches, and cumulative earnings ledgers.
-- **Polymorphic Product Catalog Engine:** Manages perishable harvest items (shelf-life timers, cold storage requirements) alongside shelf-stable processed goods.
-- **Consumer Order Engine:** Dynamic catalog discovery, category filtering, keyword search, inventory alerts, and freshness discount highlights.
-- **Transactional Cart & Checkout Subsystem:** Stateful basket management, atomic stock validation to eliminate race conditions, and polymorphic checkout supporting UPI, Credit/Debit cards, and Cash-on-Delivery.
-- **Impact Analytics & Audit Dashboard:** Real-time computation of cumulative producer earnings, intermediary brokerage fees bypassed, and kilograms of goods saved from disposal.
+- **Cinematic Discovery:** Real-time catalog of now-showing movies featuring genres, MPAA/CBFC ratings, running times, languages, and high-definition poster assets.
+- **Screen & Hall Layout Engine:** Dynamic 2D auditorium mapping with curved screen indicators, tier divisions, and row/column coordinate grids.
+- **Auditorium Booking Subsystem:** Stateful seat selection, live pricing recalculations, and automated flat convenience fee computations.
+- **Boarding Pass Admission Passes:** Instantaneous digital ticket generation with reference codes and simulated barcodes.
+- **Auditorium Analytics Dashboard:** Real-time occupancy rate tracking, box office gross, and seat utilization summaries.
 
 ---
 
 ## c) Problem Definition
 
 ### 1. Problem Statement
-In traditional order distribution networks, the journey from origin to consumer is burdened by severe structural flaws:
-- **Broker Margin Extraction:** Conventional ordering channels involve 4 to 6 intermediary layers (local brokers, commission agents, regional wholesalers, distribution hubs, and retailers). Primary producers receive merely 15% to 30% of the customer's purchase total.
-- **Severe Inventory Spoilage:** Delayed transit, lack of dynamic pricing signals, and bureaucratic warehousing lead to over 35% of fresh agricultural produce rotting before reaching retail points.
-- **Information Asymmetry:** Consumers lack transparency regarding item harvest dates, handling histories, and the true compensation paid to producers.
-- **Delayed Settlement Cycles:** Producers routinely face 30 to 90-day settlement windows for wholesale consignments, leading to crippling seasonal debt.
+Cinema ticketing workflows encounter critical operational challenges:
+- **Race Conditions in High-Demand Screenings:** When popular films launch ticket sales, hundreds of users access the same auditorium map concurrently. Naive implementations allow multiple users to book identical seats.
+- **Inflexible Seat Economics:** Theaters require differentiated revenue models that reflect comfort, legroom, and prime viewing angles, rather than flat rates.
+- **Lack of Decoupled Payment Integration:** Hardcoding specific payment gateways leads to fragile architectures that break when new payment channels are introduced.
 
 ### 2. Objectives
-
-#### Technical & Engineering Objectives
-1. **Strict OOP Encapsulation:** Guard domain entities (`Product`, `Cart`, `Order`, `Payment`) against illegal state modifications through defensive mutators, bean validation (`@NotNull`, `@Min`, `@DecimalMin`), and synchronized concurrency control on inventory levels.
-2. **Comprehensive Inheritance Hierarchy:** Construct an audited entity tree extending `BaseEntity`, branching into specialized `User` subtypes (`Farmer`, `Consumer`) and `Product` subtypes (`PerishableProduce`, `ProcessedProduce`).
-3. **Runtime Polymorphic Dispatch:** Implement the **Strategy Design Pattern** for payment processing (`PaymentStrategy`), dynamically resolved at runtime via `PaymentStrategyFactory`, and implement polymorphic price computation (`calculateEffectivePrice()`).
-4. **Layered Service Abstraction:** Decouple HTTP presentation controllers from Spring Data JPA persistence logic through well-defined service interfaces (`ProductService`, `CartService`, `OrderService`, `PaymentService`, `SdgImpactService`).
-
-#### Societal & Platform Objectives
-- Implement an automated payout mechanism guaranteeing an immutable 90% direct revenue disbursement to producers.
-- Introduce an automated, dynamic freshness pricing policy reducing food waste at the consumer-facing interface.
-- Deliver a zero-setup, fully reproducible enterprise application utilizing an in-memory embedded H2 database.
+- Engineer an atomic seat booking workflow enforcing domain invariants to prevent double-booking.
+- Construct a polymorphic seat hierarchy (`StandardSeat`, `PremiumSeat`, `VipReclinerSeat`) overriding price calculation logic.
+- Implement the Strategy Pattern for payment authorization supporting Cards, UPI, and Net Banking.
+- Provide a responsive React frontend with an interactive 2D seat matrix and printable admission pass modal.
 
 ---
 
 ## d) Requirement Analysis
 
-### 1. Functional Requirements (FR)
-- **FR-01 (Product Catalog Management):** Maintain produce listings categorized by `VEGETABLES`, `FRUITS`, `GRAINS`, `DAIRY`, `HONEY`, `SPICES`, and `OILS`.
-- **FR-02 (Dynamic Freshness Pricing):** Calculate remaining shelf life for perishable items and automatically apply a 25% discount if remaining shelf life is $\le 35\%$ of total shelf life.
-- **FR-03 (Cart Operations):** Consumers can add produce, adjust quantities within inventory bounds, delete items, and inspect real-time producer share breakdowns.
-- **FR-04 (Inventory Concurrency Guard):** Atomically validate and decrement produce stock during checkout, throwing `InsufficientStockException` if requested quantities exceed inventory.
-- **FR-05 (Polymorphic Payment Processing):** Support payment settlement via UPI (VPA validation), Credit/Debit Card (card length, expiry, CVV verification), and Cash-on-Delivery.
-- **FR-06 (Producer Remuneration):** Automatically credit 90% of each item's sale value to the associated producer's total earnings record upon order confirmation.
-- **FR-07 (Invoicing & Order History):** Generate itemized digital tax invoices containing order timestamps, payment methods, delivery addresses, and producer details.
-- **FR-08 (SDG Impact Aggregation):** Aggregate and display platform-wide metrics: total producer earnings, estimated broker fees bypassed, and kilograms of food waste prevented.
+### 1. Functional Requirements
+- **FR-1 (Movie Browsing):** Users can browse movies by genre (Sci-Fi, Action, Drama, Animation) or search by keyword.
+- **FR-2 (Showtime Scheduling):** Users can view available showtimes across different screens (Dolby Atmos, IMAX).
+- **FR-3 (Interactive Seat Matrix):** Visual 2D map displaying seats by row (A–F) and column (1–10) with real-time status (Available, Selected, Booked).
+- **FR-4 (Polymorphic Checkout):** Seamless checkout supporting UPI (VPA format check), Card (PAN, expiry, CVV validation), and Net Banking.
+- **FR-5 (Ticket Generation & Cancellation):** Immediate ticket confirmation with reference ID, printable admission pass, and seat cancellation with instant status restoration.
+- **FR-6 (Operational Analytics):** Real-time monitoring of box office revenue and auditorium occupancy percentage.
 
-### 2. Non-Functional Requirements (NFR)
-- **Data Integrity & Consistency:** Multi-step order checkout operations run within a synchronized `@Transactional` boundary; payment failures or stock exceptions trigger automated rollbacks.
-- **Performance & Latency:** In-memory H2 database operations maintain sub-50ms query response times under standard single-node concurrency.
-- **Security & Validation:** Enforce strict DTO and entity validation using Jakarta Bean Validation. Sensitive financial attributes (card numbers) are masked before persistence (`****-****-****-1234`).
-- **Extensibility:** The architecture allows plugging new payment strategies without altering core checkout logic (Open-Closed Principle).
-- **Zero Configuration Overhead:** Runs with a single command via embedded H2 database and bundled React assets.
+### 2. Non-Functional Requirements
+- **NFR-1 (Data Consistency):** All seat reservation state transitions must run inside `@Transactional` boundaries.
+- **NFR-2 (Performance):** Sub-100ms response times for seat grid rendering and catalog queries.
+- **NFR-3 (Security & Encapsulation):** Sensitive financial data (e.g. credit card PANs) masked (`****-****-****-4242`) before storage.
+- **NFR-4 (Portability):** Zero external installation dependencies; operates via embedded H2 in-memory storage and pre-compiled static assets.
 
 ### 3. Hardware and Software Specifications
-- **Java Runtime:** OpenJDK 21 or Oracle JDK 21
-- **Backend Framework:** Spring Boot 3.4.2 (Spring Web, Spring Data JPA, Jakarta Validation)
-- **Database:** Embedded H2 In-Memory Database (`jdbc:h2:mem:farmdirectdb`)
-- **Frontend Stack:** React 18.3, Vite 5.4, Tailwind CSS 3.4, Lucide React Icons
-- **Documentation:** SpringDoc OpenAPI 2.7.0 (Swagger UI)
-- **Minimum Hardware:** Dual-Core 2.0 GHz CPU, 4 GB RAM, 500 MB disk space
+- **Operating System:** Cross-platform (Windows 10/11, macOS, Linux)
+- **Java Development Kit:** JDK 21 (LTS)
+- **Framework:** Spring Boot 3.4.2 (Spring Data JPA, Spring Web MVC, Bean Validation)
+- **Database:** H2 Database Engine (In-Memory, zero-configuration)
+- **API Documentation:** SpringDoc OpenAPI 2.8.5 (Swagger UI)
+- **Client Frontend:** React 18, Vite, Tailwind CSS, Lucide Icons
 
 ---
 
 ## e) System Design
 
 ### 1. Tiered Architectural Design
-
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  PRESENTATION TIER (UI)                      │
-│     React 18 Single Page Application (SPA) • Tailwind CSS    │
-│  (Home Hero • Products Catalog • Cart Drawer • Checkout)     │
-└──────────────────────────────┬───────────────────────────────┘
-                               │ REST APIs (JSON / HTTP)
-┌──────────────────────────────▼───────────────────────────────┐
-│                 CONTROLLER TIER (REST API)                   │
-│  ProductController • CartController • OrderController        │
-│        SdgImpactController • GlobalExceptionHandler          │
-└──────────────────────────────┬───────────────────────────────┘
-                               │ Service Abstraction Interfaces
-┌──────────────────────────────▼───────────────────────────────┐
-│                BUSINESS LOGIC TIER (SERVICES)                │
-│    ProductService • CartService • OrderService               │
-│    PaymentService • PaymentStrategyFactory (Strategy)        │
-└──────────────────────────────┬───────────────────────────────┘
-                               │ Spring Data JPA ORM
-┌──────────────────────────────▼───────────────────────────────┐
-│              PERSISTENCE & DOMAIN TIER (JPA)                 │
-│  Entities: BaseEntity, Product, PerishableProduce,           │
-│            ProcessedProduce, User, Farmer, Consumer, Order   │
-└──────────────────────────────┬───────────────────────────────┘
-                               │ Embedded In-Memory JDBC
-┌──────────────────────────────▼───────────────────────────────┐
-│                    DATA TIER (H2 DATABASE)                   │
-│        Embedded In-Memory Relational Engine                  │
-└──────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|             Client Layer (React 18 + Vite)                |
+|  - Interactive 2D Seat Map     - Movie Discovery Catalog   |
+|  - Polymorphic Checkout Modal  - Printable Admission Pass  |
++-----------------------------+-----------------------------+
+                              | REST JSON (HTTP)
++-----------------------------v-----------------------------+
+|               Controller Layer (Spring Web)               |
+|  - MovieController             - ShowtimeController        |
+|  - BookingController           - TheaterStatsController    |
++-----------------------------+-----------------------------+
+                              | DTOs
++-----------------------------v-----------------------------+
+|             Service Layer (Domain Business Logic)         |
+|  - MovieService                - ShowtimeService           |
+|  - BookingService              - PaymentService (Strategy) |
++-----------------------------+-----------------------------+
+                              | JPA Entity Graph
++-----------------------------v-----------------------------+
+|            Persistence Layer (Spring Data JPA)            |
+|  - MovieRepository             - ShowtimeSeatRepository   |
+|  - ScreenRepository            - BookingRepository        |
++-----------------------------+-----------------------------+
+                              | SQL Statements
++-----------------------------v-----------------------------+
+|               Embedded H2 Database Engine                 |
++-----------------------------------------------------------+
 ```
 
 ### 2. Object-Oriented Class Hierarchy
 
 ```mermaid
 classDiagram
-    direction TB
     class BaseEntity {
-        <<abstract>>
+        <<MappedSuperclass>>
         -Long id
         -LocalDateTime createdAt
         -LocalDateTime updatedAt
-        +getId() Long
     }
 
     class User {
@@ -197,56 +165,54 @@ classDiagram
         -String email
         -String phone
         -UserRole role
-        -String address
     }
 
-    class Farmer {
-        -String farmName
-        -String farmLocation
-        -boolean organicCertified
-        -String upiId
-        -BigDecimal totalEarnings
-        +creditEarnings(BigDecimal amount)
+    class Customer {
+        -Integer loyaltyPoints
+        -String membershipTier
+        +addLoyaltyPoints(int points)
     }
 
-    class Consumer {
-        -String defaultDeliveryAddress
-        -int loyaltyPoints
+    class TheaterAdmin {
+        -String staffBadgeId
+        -String department
     }
 
-    class Product {
-        <<abstract>>
-        -String name
-        -BigDecimal basePrice
-        -int stockQuantity
-        -Farmer farmer
-        +calculateEffectivePrice()* BigDecimal
-        +reduceStock(int quantity)
-        +restock(int quantity)
+    class Seat {
+        <<Abstract>>
+        -String seatNumber
+        -String rowName
+        -int columnNumber
+        -SeatTier seatTier
+        +calculateEffectivePrice(BigDecimal basePrice, boolean primeTime)* BigDecimal
+        +getAmenityDescription()* String
     }
 
-    class PerishableProduce {
-        -LocalDate harvestDate
-        -int shelfLifeDays
-        -boolean coldStorageRequired
-        +calculateEffectivePrice() BigDecimal
-        +isClearanceDiscountApplied() boolean
-        +getRemainingShelfLifeDays() long
+    class StandardSeat {
+        +calculateEffectivePrice(BigDecimal basePrice, boolean primeTime) BigDecimal
+        +getAmenityDescription() String
     }
 
-    class ProcessedProduce {
-        -String processingMethod
-        -LocalDate packagingDate
-        -int shelfLifeMonths
-        +calculateEffectivePrice() BigDecimal
+    class PremiumSeat {
+        -int extraLegroomInches
+        +calculateEffectivePrice(BigDecimal basePrice, boolean primeTime) BigDecimal
+        +getAmenityDescription() String
+    }
+
+    class VipReclinerSeat {
+        -int reclinerAngleDegrees
+        -boolean complimentarySnack
+        +calculateEffectivePrice(BigDecimal basePrice, boolean primeTime) BigDecimal
+        +getAmenityDescription() String
     }
 
     BaseEntity <|-- User
-    BaseEntity <|-- Product
-    User <|-- Farmer
-    User <|-- Consumer
-    Product <|-- PerishableProduce
-    Product <|-- ProcessedProduce
+    User <|-- Customer
+    User <|-- TheaterAdmin
+    BaseEntity <|-- Seat
+    Seat <|-- StandardSeat
+    Seat <|-- PremiumSeat
+    Seat <|-- VipReclinerSeat
 ```
 
 ### 3. Polymorphic Payment Strategy Pattern
@@ -254,249 +220,213 @@ classDiagram
 ```mermaid
 classDiagram
     class PaymentStrategy {
-        <<interface>>
-        +processPayment(Order, PaymentRequest) PaymentResult
+        <<Interface>>
+        +processPayment(Booking booking, PaymentRequest request) PaymentResult
         +getSupportedMethod() PaymentMethod
     }
-    class UpiPaymentStrategy {
-        +processPayment(Order, PaymentRequest) PaymentResult
-    }
+
     class CardPaymentStrategy {
-        +processPayment(Order, PaymentRequest) PaymentResult
-    }
-    class CashOnDeliveryPaymentStrategy {
-        +processPayment(Order, PaymentRequest) PaymentResult
-    }
-    class PaymentStrategyFactory {
-        -Map~PaymentMethod, PaymentStrategy~ strategyMap
-        +getStrategy(PaymentMethod) PaymentStrategy
+        +processPayment(Booking booking, PaymentRequest request) PaymentResult
+        +getSupportedMethod() PaymentMethod
     }
 
-    PaymentStrategy <|.. UpiPaymentStrategy
+    class UpiPaymentStrategy {
+        +processPayment(Booking booking, PaymentRequest request) PaymentResult
+        +getSupportedMethod() PaymentMethod
+    }
+
+    class NetBankingPaymentStrategy {
+        +processPayment(Booking booking, PaymentRequest request) PaymentResult
+        +getSupportedMethod() PaymentMethod
+    }
+
+    class PaymentStrategyFactory {
+        -Map~PaymentMethod, PaymentStrategy~ strategies
+        +getStrategy(PaymentMethod method) PaymentStrategy
+    }
+
     PaymentStrategy <|.. CardPaymentStrategy
-    PaymentStrategy <|.. CashOnDeliveryPaymentStrategy
-    PaymentStrategyFactory o-- PaymentStrategy : dynamically resolves
+    PaymentStrategy <|.. UpiPaymentStrategy
+    PaymentStrategy <|.. NetBankingPaymentStrategy
+    PaymentStrategyFactory --> PaymentStrategy : resolves
+```
+
+### 4. Transactional Booking Sequence
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Patron as Customer
+    participant UI as React Frontend
+    participant BC as BookingController
+    participant BS as BookingService
+    participant SS as ShowtimeSeat
+    participant PSF as PaymentStrategyFactory
+    participant PS as PaymentStrategy
+    participant Repo as BookingRepository
+
+    Patron->>UI: Select Seats (e.g. E5, E6) & Click Checkout
+    UI->>BC: POST /api/bookings (ShowtimeId, SeatIds, PaymentData)
+    BC->>BS: createBooking(BookingRequest)
+    BS->>SS: check status & book(booking)
+    alt Seat Already Booked
+        SS-->>BS: Throw SeatAlreadyBookedException (409)
+        BS-->>UI: Conflict Error
+    else Seats Available
+        SS->>SS: Set status = BOOKED
+        BS->>PSF: getStrategy(request.getPaymentMethod())
+        PSF-->>BS: Concrete Strategy (e.g. UpiPaymentStrategy)
+        BS->>PS: processPayment(booking, request)
+        PS-->>BS: PaymentResult(SUCCESS, TxnId)
+        BS->>Repo: save(Booking with Payment)
+        Repo-->>BS: Saved Booking Entity
+        BS-->>BC: BookingResponse
+        BC-->>UI: 201 Created (Booking Details)
+        UI-->>Patron: Display Digital Admission Ticket
+    end
 ```
 
 ---
 
 ## f) Code Snippets (OOP Pillars Demonstration)
 
-### 1. Encapsulation & Domain Invariants ([`Product.java`](file:///c:/Users/HP/Desktop/code/uni/src/main/java/com/example/order/model/entity/Product.java#L47-L69))
-```java
-// Encapsulation of inventory mutation with defensive bounds checking
-@Min(value = 0, message = "Stock quantity cannot be negative")
-@Column(nullable = false)
-private int stockQuantity;
-
-public synchronized void reduceStock(int quantity) {
-    if (quantity <= 0) {
-        throw new IllegalArgumentException("Quantity to reduce must be strictly positive.");
-    }
-    if (this.stockQuantity < quantity) {
-        throw new InsufficientStockException(
-            "Insufficient inventory for produce '" + this.name + 
-            "'. Available: " + this.stockQuantity + ", Requested: " + quantity
-        );
-    }
-    this.stockQuantity -= quantity;
-}
-```
-
-### 2. Multi-Tier Inheritance ([`BaseEntity.java`](file:///c:/Users/HP/Desktop/code/uni/src/main/java/com/example/order/model/entity/BaseEntity.java#L14-L44))
-```java
-@MappedSuperclass
-public abstract class BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-}
-```
-
-### 3. Dynamic Freshness Pricing Polymorphism ([`PerishableProduce.java`](file:///c:/Users/HP/Desktop/code/uni/src/main/java/com/example/order/model/entity/PerishableProduce.java#L40-L75))
+### 1. Encapsulation & Domain Invariants
+Double-booking prevention is enforced at the domain entity level:
 ```java
 @Entity
-@DiscriminatorValue("PERISHABLE")
-public class PerishableProduce extends Product {
-    private LocalDate harvestDate;
-    private int shelfLifeDays;
+@Table(name = "showtime_seats")
+public class ShowtimeSeat extends BaseEntity {
 
-    public long getRemainingShelfLifeDays() {
-        long daysSinceHarvest = ChronoUnit.DAYS.between(harvestDate, LocalDate.now());
-        return Math.max(0, shelfLifeDays - daysSinceHarvest);
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SeatStatus status = SeatStatus.AVAILABLE;
 
-    @Override
-    public boolean isClearanceDiscountApplied() {
-        long remaining = getRemainingShelfLifeDays();
-        // UN SDG 12.3: Clearance discount triggered when 35% or less shelf life remains
-        return remaining > 0 && remaining <= Math.ceil(shelfLifeDays * 0.35);
-    }
-
-    @Override
-    public BigDecimal calculateEffectivePrice() {
-        if (isClearanceDiscountApplied()) {
-            return getBasePrice().multiply(new BigDecimal("0.75"))
-                                 .setScale(2, RoundingMode.HALF_UP);
+    public void book(Booking booking) {
+        if (this.status == SeatStatus.BOOKED) {
+            throw new SeatAlreadyBookedException(
+                "Seat " + seat.getSeatNumber() + " is already booked for this showtime!"
+            );
         }
-        return getBasePrice().setScale(2, RoundingMode.HALF_UP);
+        this.status = SeatStatus.BOOKED;
+        this.booking = booking;
+    }
+
+    public void release() {
+        this.status = SeatStatus.AVAILABLE;
+        this.booking = null;
     }
 }
 ```
 
-### 4. Payment Strategy Factory ([`PaymentStrategyFactory.java`](file:///c:/Users/HP/Desktop/code/uni/src/main/java/com/example/order/strategy/PaymentStrategyFactory.java#L15-L42))
+### 2. Multi-Tier Inheritance
+Abstract base seat mapped using JPA `SINGLE_TABLE`:
 ```java
+@Entity
+@Table(name = "seats")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "seat_category", discriminatorType = DiscriminatorType.STRING)
+public abstract class Seat extends BaseEntity {
+    private String seatNumber;
+    private String rowName;
+    private int columnNumber;
+
+    @Enumerated(EnumType.STRING)
+    private SeatTier seatTier;
+
+    public abstract BigDecimal calculateEffectivePrice(BigDecimal baseShowPrice, boolean isPrimeTime);
+    public abstract String getAmenityDescription();
+}
+```
+
+### 3. Polymorphism & Dynamic Tier Pricing
+Different seating subclasses implement customized dynamic formulas:
+```java
+@Entity
+@DiscriminatorValue("VIP_RECLINER")
+public class VipReclinerSeat extends Seat {
+
+    @Override
+    public BigDecimal calculateEffectivePrice(BigDecimal baseShowPrice, boolean isPrimeTime) {
+        // 1.80x tier multiplier + complimentary gourmet snack voucher
+        BigDecimal price = baseShowPrice.multiply(new BigDecimal(String.valueOf(SeatTier.VIP_RECLINER.getPriceMultiplier())));
+        if (complimentarySnack) {
+            price = price.add(new BigDecimal("50.00"));
+        }
+        if (isPrimeTime) {
+            price = price.add(new BigDecimal("60.00"));
+        }
+        return price.setScale(2, RoundingMode.HALF_UP);
+    }
+}
+```
+
+### 4. Strategy Design Pattern for Payments
+Decoupled payment mechanism:
+```java
+public interface PaymentStrategy {
+    PaymentResult processPayment(Booking booking, PaymentRequest request);
+    PaymentMethod getSupportedMethod();
+}
+
 @Component
 public class PaymentStrategyFactory {
-    private final Map<PaymentMethod, PaymentStrategy> strategyMap = 
-        new EnumMap<>(PaymentMethod.class);
+    private final Map<PaymentMethod, PaymentStrategy> strategies = new EnumMap<>(PaymentMethod.class);
 
-    public PaymentStrategyFactory(List<PaymentStrategy> strategies) {
-        for (PaymentStrategy strategy : strategies) {
-            strategyMap.put(strategy.getSupportedMethod(), strategy);
+    @Autowired
+    public PaymentStrategyFactory(List<PaymentStrategy> strategyList) {
+        for (PaymentStrategy s : strategyList) {
+            strategies.put(s.getSupportedMethod(), s);
         }
-        strategyMap.put(PaymentMethod.DEBIT_CARD, strategyMap.get(PaymentMethod.CREDIT_CARD));
     }
 
     public PaymentStrategy getStrategy(PaymentMethod method) {
-        PaymentStrategy strategy = strategyMap.get(method);
-        if (strategy == null) {
-            throw new PaymentProcessingException("Unsupported payment method: " + method);
-        }
-        return strategy;
-    }
-}
-```
-
-### 5. Service Abstraction & Checkout Transaction ([`OrderServiceImpl.java`](file:///c:/Users/HP/Desktop/code/uni/src/main/java/com/example/order/service/OrderServiceImpl.java#L52-L98))
-```java
-@Service
-@Transactional
-public class OrderServiceImpl implements OrderService {
-    @Override
-    public OrderResponse checkoutCart(CheckoutRequest request) {
-        Cart cart = cartRepository.findByUserId(request.getUserId())
-            .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
-
-        Order order = new Order(generateOrderNumber(), cart.getUser(),
-                                request.getDeliveryAddress(), request.getPayment().getPaymentMethod());
-
-        // 1. Atomic Inventory Deduction & Order Snapshot
-        for (CartItem item : cart.getItems()) {
-            Product product = item.getProduct();
-            product.reduceStock(item.getQuantity());
-            productRepository.save(product);
-            order.addItem(new OrderItem(order, product, item.getQuantity(), item.getUnitPrice()));
-        }
-
-        // 2. Polymorphic Strategy-Based Payment Execution
-        paymentService.processOrderPayment(order, request.getPayment());
-
-        // 3. UN SDG 2.3: Direct Producer Remuneration (90% Gross Payout)
-        for (OrderItem item : order.getItems()) {
-            farmerRepository.findById(item.getFarmerId()).ifPresent(farmer -> {
-                farmer.creditEarnings(item.getFarmerEarning());
-                farmerRepository.save(farmer);
-            });
-        }
-
-        cart.clear();
-        return OrderResponse.fromEntity(orderRepository.save(order));
+        return strategies.get(method);
     }
 }
 ```
 
 ---
 
-## g) Output Screenshots
+## g) Test Execution & Output Results
 
-Below are the actual output screenshots captured directly from the running fullstack application.
+### 1. Automated Test Execution
+The application includes automated JUnit 5 test suites validating both domain OOP principles and full Spring Boot REST endpoints:
+- **`CineReserveOopTests`:**
+  - `testEncapsulationDoubleBookingProtection`: Asserts `SeatAlreadyBookedException` on concurrency conflict.
+  - `testEncapsulationBookingFinancialTotals`: Verifies subtotal and convenience fee summation.
+  - `testInheritanceHierarchy`: Asserts polymorphic parent-child relationships.
+  - `testPolymorphicPricingCalculation`: Verifies pricing formula across seat tiers and prime-time surge.
+  - `testStrategyDesignPatternResolution`: Verifies runtime strategy dispatch.
+- **`CineReserveIntegrationTests`:**
+  - `GET /api/movies`: Validates movie catalog retrieval.
+  - `GET /api/showtimes`: Validates screening schedules.
+  - `GET /api/showtimes/{id}`: Validates seat grid layout payload.
+  - `POST /api/bookings`: Tests transactional seat reservation with UPI strategy.
+  - `GET /api/stats`: Asserts real-time box office calculation.
 
-### 1. Home Dashboard & Live Impact Counters
-The main dashboard displays real-time SDG metrics including cumulative producer payouts, bypassed intermediary brokerage fees, and kilograms of food waste prevented:
-
-![1. Home Dashboard & Live Impact Counters](screenshots/01_home_dashboard.png)
-
----
-
-### 2. Product Catalog with Dynamic Freshness Discounts
-The product catalog dynamically lists available goods, category pills, organic certification badges, and highlights active 25% Freshness-Saver clearance discounts on perishable items:
-
-![2. Product Catalog with Dynamic Freshness Discounts](screenshots/02_products_catalog.png)
-
----
-
-### 3. Shopping Cart & Producer Direct Remuneration Breakdown
-The shopping cart manages line items, applies dynamic item totals, and transparently details the 90% direct payout reserved for producers:
-
-![3. Shopping Cart & Producer Direct Remuneration Breakdown](screenshots/03_shopping_cart.png)
-
----
-
-### 4. Polymorphic Checkout Strategy Modal
-The checkout interface allows consumers to input delivery details and select among polymorphic payment strategies (UPI, Credit/Debit Card, Cash on Delivery):
-
-![4. Polymorphic Checkout Strategy Modal](screenshots/04_checkout_modal.png)
-
----
-
-### 5. Order History & Invoice Management
-The historical orders view renders digital itemized invoices with complete timestamps, payment status, and producer compensation breakdown:
-
-![5. Order History & Invoice Management](screenshots/05_orders_history.png)
-
----
-
-### 6. Interactive Swagger UI OpenAPI Documentation
-Interactive REST API contract documentation at `/swagger-ui.html` providing comprehensive endpoint testing and schema definitions:
-
-![6. Interactive Swagger UI OpenAPI Documentation](screenshots/06_swagger_api_docs.png)
-
----
-
-### 7. Embedded H2 Database Console
-The embedded database management console at `/h2-console` providing relational schema inspection and direct SQL querying:
-
-![7. Embedded H2 Database Console](screenshots/07_h2_database_console.png)
+```
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+```
 
 ---
 
 ## h) Conclusion
 
 ### 1. Key Project Accomplishments
-- **Full Socio-Technical Alignment:** Engineered an operational fullstack solution addressing critical supply-chain issues while fulfilling **UN SDGs 2 & 12**.
-- **Complete OOP Adherence:** Implemented strict encapsulation with defensive bounds checking, multi-level entity inheritance, runtime polymorphism via the Strategy Pattern, and service-layer abstraction.
-- **Real-Time Verification:** Captured actual output screenshots from the running Spring Boot and React application, demonstrating end-to-end functionality across catalog browsing, dynamic clearance pricing, cart management, and polymorphic checkout.
-- **Zero-Setup Portability:** Bundled into an embedded Spring Boot and H2 architecture executable with a single `mvn spring-boot:run` command.
+1. **Domain Transformation:** Successfully transitioned the project from an agricultural shopping pipeline to a full-featured Cinema Theater Seat Booking System.
+2. **True OOP Architecture:** Seamlessly implemented the 4 core pillars of OOP alongside the Strategy Design Pattern.
+3. **Interactive Visual UI:** Delivered an intuitive, responsive 2D auditorium grid allowing real-time seat selection, payment simulation, and admission pass printing.
+4. **Complete Test & Code Quality:** 100% automated test pass rate with zero runtime compilation warnings.
 
 ### 2. Critical Learnings
-- Applying design patterns (Strategy, Factory, Repository) early in architecture minimizes technical debt and makes the application easily extensible without code modification (Open-Closed Principle).
-- Declarative transaction boundaries (`@Transactional`) combined with synchronized domain mutators are essential for maintaining inventory and financial integrity in e-commerce environments.
-- Bridging computer science assignments with real-world UN Sustainable Development Goals demonstrates how software engineering directly solves pressing human and environmental problems.
+- Managing complex entity state transitions inside `@Transactional` service methods ensures clean data consistency and prevents race conditions.
+- Polymorphic pricing formulas eliminate brittle `switch` or `if-else` blocks, keeping class responsibilities modular and open for extension.
 
 ### 3. Future Enhancements & Roadmap
-1. **IoT Cold-Chain Telemetry Integration:** Incorporate IoT temperature and humidity sensors in transit crates, streaming live telemetry to update produce shelf life dynamically.
-2. **Cooperative Electric Vehicle Routing:** Implement heuristic vehicle routing algorithms for electric delivery clusters, further minimizing logistics overhead and carbon footprints.
-3. **Blockchain Harvest Ledger:** Cryptographic batch tracking proving crop origin and organic certifications.
-4. **Vernacular Voice Ordering:** Multi-dialect voice commerce enabling unassisted access for smallholder producers.
-
----
-*Report compiled for the Object-Oriented Programming in Java Course Evaluation.*
+- Implement WebSockets for multi-user live seat selection broadcasting (visual live locks).
+- Add food & beverage concession pre-ordering bundled with admission passes.
+- Integrate cinema loyalty tier promotions and redemption coupons.

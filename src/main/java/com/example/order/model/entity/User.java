@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Base User entity demonstrating OOP Encapsulation and Inheritance.
+ * Customer and TheaterAdmin inherit from this common class.
  */
 @Entity
 @Table(name = "app_users")
@@ -32,21 +33,17 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private UserRole role;
 
-    @Column(nullable = false)
-    private String address;
-
     public User() {
     }
 
-    public User(String name, String email, String phone, UserRole role, String address) {
+    public User(String name, String email, String phone, UserRole role) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.role = role;
-        this.address = address;
     }
 
-    // Getters and Setters (Encapsulation)
+    // Encapsulation: getters and setters
     public String getName() {
         return name;
     }
@@ -77,13 +74,5 @@ public class User extends BaseEntity {
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

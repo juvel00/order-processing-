@@ -1,277 +1,283 @@
 import React, { useState } from 'react';
-import {
-  X,
-  CreditCard,
-  QrCode,
-  Banknote,
-  ShieldCheck,
-  Lock,
-  Truck,
-  CheckCircle2
-} from 'lucide-react';
+import { X, CreditCard, Smartphone, Building2, ShieldCheck, Lock, Loader2, CheckCircle2 } from 'lucide-react';
+import { api } from '../services/api';
 
-export default function CheckoutModal({
-  isOpen,
-  onClose,
-  cart,
-  currentUser,
-  onCheckoutSuccess,
-  showToast,
-}) {
-  if (!isOpen || !cart) return null;
+export default function CheckoutModal({ bookingData, onClose, onBookingSuccess, addToast }) {
+  const { showtime, selectedSeats, subtotal, convenienceFee, grandTotal } = bookingData;
 
-  const [deliveryAddress, setDeliveryAddress] = useState(
-    currentUser?.address || 'Flat 402, Green Meadows Apartment, Indiranagar, Bengaluru - 560038'
-  );
   const [paymentMethod, setPaymentMethod] = useState('UPI');
+  const [submitting, setSubmitting] = useState(false);
 
-  // Payment Form fields
-  const [upiId, setUpiId] = useState('shopper@okhdfcbank');
-  const [cardNumber, setCardNumber] = useState('4111222233334444');
-  const [cardHolder, setCardHolder] = useState(currentUser?.name || 'Aarav Sharma');
+  // Form states
+  const [upiId, setUpiId] = useState('rahul.sharma@okaxis');
+  const [cardNumber, setCardNumber] = useState('4532 8923 1102 9942');
+  const [cardHolder, setCardHolder] = useState('Rahul Sharma');
   const [expiryMonth, setExpiryMonth] = useState('12');
   const [expiryYear, setExpiryYear] = useState('2028');
-  const [cvv, setCvv] = useState('123');
-  const [notes, setNotes] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  const [cvv, setCvv] = useState('842');
+  const [bankName, setBankName] = useState('HDFC Bank');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!deliveryAddress.trim()) {
-      showToast('Delivery address is required', 'error');
-      return;
-    }
-
-    const paymentRequest = {
-      paymentMethod,
-      upiId: paymentMethod === 'UPI' ? upiId : null,
-      cardNumber: paymentMethod.includes('CARD') ? cardNumber : null,
-      cardHolderName: paymentMethod.includes('CARD') ? cardHolder : null,
-      expiryMonth: paymentMethod.includes('CARD') ? parseInt(expiryMonth) : null,
-      expiryYear: paymentMethod.includes('CARD') ? parseInt(expiryYear) : null,
-      cvv: paymentMethod.includes('CARD') ? cvv : null,
-      notes: paymentMethod === 'CASH_ON_DELIVERY' ? notes : null,
-    };
-
-    const checkoutData = {
-      userId: currentUser.id,
-      deliveryAddress,
-      payment: paymentRequest,
-    };
-
     setSubmitting(true);
+
     try {
-      await onCheckoutSuccess(checkoutData);
-      onClose();
+      const payload = {
+        showtimeId: showtime.id,
+        customerId: 1, // Demo active customer
+        showtimeSeatIds: selectedSeats.map((s) => s.showtimeSeatId),
+        payment: {
+          paymentMethod,
+          ...(paymentMethod === 'UPI' && { upiId }),
+          ...(paymentMethod === 'CARD' && {
+            cardNumber: cardNumber.replace(/\s+/g, ''),
+            cardHolderName: cardHolder,
+            expiryMonth: parseInt(expiryMonth, 10),
+            expiryYear: parseInt(expiryYear, 10),
+            cvv,
+          }),
+          ...(paymentMethod === 'NET_BANKING' && { bankName }),
+        },
+      };
+
+      const response = await api.createBooking(payload);
+      addToast({
+        type: 'success',
+        message: `Booking confirmed! Reference: ${response.bookingReference}`,
+      });
+      onBookingSuccess(response);
     } catch (err) {
-      showToast(err.message || 'Payment processing failed. Please try again.', 'error');
+      addToast({
+        type: 'error',
+        message: err.message || 'Payment processing failed. Please try again.',
+      });
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-      />
-
-      {/* Modal Dialog */}
-      <div className="relative bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-slide-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl text-slate-100 overflow-hidden my-auto">
         
         {/* Header */}
-        <div className="p-6 pb-4 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
+        <div className="p-6 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-black text-xl text-slate-900">Secure Checkout</h3>
-              <p className="text-xs text-slate-500">256-Bit Encrypted Payment Gateway</p>
+              <h2 className="text-xl font-black text-white">Secure Checkout</h2>
+              <p className="text-xs text-slate-400">Polymorphic Payment Strategy Pattern</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition"
+            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
           
-          {/* Shipping Address */}
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Delivery Address
-            </label>
-            <textarea
-              rows="2"
-              value={deliveryAddress}
-              onChange={(e) => setDeliveryAddress(e.target.value)}
-              className="w-full text-xs p-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-slate-50 focus:bg-white transition"
-              placeholder="Flat/House no., building name, street, city, pin code..."
-              required
-            />
+          {/* Reservation Summary */}
+          <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-2">
+            <div className="flex justify-between items-start">
+              <div>
+                <h4 className="font-bold text-white text-base">{showtime.movieTitle}</h4>
+                <p className="text-xs text-slate-400">
+                  {showtime.screenName} • {new Date(showtime.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+              <div className="text-right">
+                <span className="text-xs font-semibold text-slate-400 block">Seats ({selectedSeats.length})</span>
+                <span className="text-xs font-black text-amber-400">
+                  {selectedSeats.map((s) => s.seatNumber).join(', ')}
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-300">
+              <span>Tickets Subtotal</span>
+              <span>₹{subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-xs text-slate-300">
+              <span>Convenience Fee (₹25 × {selectedSeats.length})</span>
+              <span>₹{convenienceFee.toFixed(2)}</span>
+            </div>
+            <div className="pt-2 border-t border-slate-800 flex justify-between font-black text-base text-white">
+              <span>Total Payable</span>
+              <span className="text-amber-400 text-lg">₹{grandTotal.toFixed(2)}</span>
+            </div>
           </div>
 
-          {/* Payment Method Selector */}
+          {/* Strategy Pattern Selection */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-3">
-              Select Payment Method
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-3">
+              Select Payment Strategy:
             </label>
 
             <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => setPaymentMethod('UPI')}
-                className={`p-3.5 rounded-2xl border text-left flex flex-col gap-1 transition-all ${
+                className={`p-3 rounded-2xl border text-center transition flex flex-col items-center gap-2 ${
                   paymentMethod === 'UPI'
-                    ? 'border-brand-600 bg-brand-50 text-brand-900 ring-2 ring-brand-500/20'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                    ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-md'
+                    : 'bg-slate-850 border-slate-800 text-slate-400 hover:bg-slate-800'
                 }`}
               >
-                <QrCode className="w-5 h-5 text-brand-600" />
-                <span className="text-xs font-bold">UPI</span>
-                <span className="text-[10px] text-slate-500">GPay, PhonePe, Paytm</span>
+                <Smartphone className="w-5 h-5 text-indigo-400" />
+                <span className="text-xs font-bold">UPI Transfer</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setPaymentMethod('CREDIT_CARD')}
-                className={`p-3.5 rounded-2xl border text-left flex flex-col gap-1 transition-all ${
-                  paymentMethod === 'CREDIT_CARD'
-                    ? 'border-brand-600 bg-brand-50 text-brand-900 ring-2 ring-brand-500/20'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                onClick={() => setPaymentMethod('CARD')}
+                className={`p-3 rounded-2xl border text-center transition flex flex-col items-center gap-2 ${
+                  paymentMethod === 'CARD'
+                    ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-md'
+                    : 'bg-slate-850 border-slate-800 text-slate-400 hover:bg-slate-800'
                 }`}
               >
-                <CreditCard className="w-5 h-5 text-brand-600" />
-                <span className="text-xs font-bold">Card</span>
-                <span className="text-[10px] text-slate-500">Visa, Master, RuPay</span>
+                <CreditCard className="w-5 h-5 text-purple-400" />
+                <span className="text-xs font-bold">Debit / Credit</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setPaymentMethod('CASH_ON_DELIVERY')}
-                className={`p-3.5 rounded-2xl border text-left flex flex-col gap-1 transition-all ${
-                  paymentMethod === 'CASH_ON_DELIVERY'
-                    ? 'border-brand-600 bg-brand-50 text-brand-900 ring-2 ring-brand-500/20'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                onClick={() => setPaymentMethod('NET_BANKING')}
+                className={`p-3 rounded-2xl border text-center transition flex flex-col items-center gap-2 ${
+                  paymentMethod === 'NET_BANKING'
+                    ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-md'
+                    : 'bg-slate-850 border-slate-800 text-slate-400 hover:bg-slate-800'
                 }`}
               >
-                <Banknote className="w-5 h-5 text-brand-600" />
-                <span className="text-xs font-bold">Cash</span>
-                <span className="text-[10px] text-slate-500">Pay on Delivery</span>
+                <Building2 className="w-5 h-5 text-amber-400" />
+                <span className="text-xs font-bold">Net Banking</span>
               </button>
             </div>
           </div>
 
-          {/* Conditional Payment Inputs */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          {/* Method specific inputs */}
+          <div className="p-4 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-4">
             {paymentMethod === 'UPI' && (
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-700">UPI Virtual Payment Address (VPA)</label>
+              <div>
+                <label className="text-xs font-semibold text-slate-300 block mb-1.5">
+                  Virtual Payment Address (UPI ID)
+                </label>
                 <input
                   type="text"
+                  required
                   value={upiId}
                   onChange={(e) => setUpiId(e.target.value)}
-                  placeholder="e.g. mobile@upi or username@okhdfcbank"
-                  className="w-full text-xs p-3 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-                  required
+                  placeholder="username@bank"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <p className="text-[10px] text-slate-500">
-                  You will receive a payment confirmation prompt on your UPI mobile app.
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Simulates Instant NPCI VPA authorization via UpiPaymentStrategy.
                 </p>
               </div>
             )}
 
-            {paymentMethod === 'CREDIT_CARD' && (
+            {paymentMethod === 'CARD' && (
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Card Number</label>
+                  <label className="text-xs font-semibold text-slate-300 block mb-1">Card Number</label>
                   <input
                     type="text"
+                    required
                     value={cardNumber}
                     onChange={(e) => setCardNumber(e.target.value)}
-                    placeholder="4111 2222 3333 4444"
-                    maxLength={19}
-                    className="w-full text-xs p-3 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
-                    required
+                    placeholder="4532 0000 0000 0000"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="col-span-2">
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Name on Card</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs font-semibold text-slate-300 block mb-1">Card Holder Name</label>
                     <input
                       type="text"
+                      required
                       value={cardHolder}
                       onChange={(e) => setCardHolder(e.target.value)}
-                      placeholder="Cardholder Name"
-                      className="w-full text-xs p-3 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-                      required
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">CVV</label>
-                    <input
-                      type="password"
-                      value={cvv}
-                      onChange={(e) => setCvv(e.target.value)}
-                      placeholder="123"
-                      maxLength={4}
-                      className="w-full text-xs p-3 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
-                      required
-                    />
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="text-xs font-semibold text-slate-300 block mb-1">Expiry</label>
+                      <input
+                        type="text"
+                        required
+                        value={`${expiryMonth}/${expiryYear.slice(-2)}`}
+                        onChange={(e) => {
+                          const parts = e.target.value.split('/');
+                          if (parts[0]) setExpiryMonth(parts[0]);
+                          if (parts[1]) setExpiryYear('20' + parts[1]);
+                        }}
+                        placeholder="MM/YY"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-2 text-sm text-center text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-slate-300 block mb-1">CVV</label>
+                      <input
+                        type="password"
+                        maxLength="4"
+                        required
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value)}
+                        placeholder="123"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-2 text-sm text-center text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {paymentMethod === 'CASH_ON_DELIVERY' && (
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-700">Delivery Instructions (Optional)</label>
-                <input
-                  type="text"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="e.g. Leave with security / Ring doorbell"
-                  className="w-full text-xs p-3 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
-                <p className="text-[10px] text-slate-500">
-                  Pay with exact cash or scan the delivery agent's QR code upon arrival.
-                </p>
+            {paymentMethod === 'NET_BANKING' && (
+              <div>
+                <label className="text-xs font-semibold text-slate-300 block mb-1.5">
+                  Select Institutional Gateway
+                </label>
+                <select
+                  value={bankName}
+                  onChange={(e) => setBankName(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="HDFC Bank">HDFC Bank</option>
+                  <option value="State Bank of India">State Bank of India (SBI)</option>
+                  <option value="ICICI Bank">ICICI Bank</option>
+                  <option value="Axis Bank">Axis Bank</option>
+                  <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                </select>
               </div>
             )}
           </div>
 
-          {/* Amount Overview */}
-          <div className="p-4 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-between">
-            <div>
-              <span className="text-xs text-slate-500">Total Payable Amount</span>
-              <p className="text-2xl font-black text-brand-900">
-                ₹{Number(cart.totalAmount).toFixed(2)}
-              </p>
-            </div>
-            <div className="text-right text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Free Delivery Included</span>
-            </div>
-          </div>
-
-          {/* Action Button */}
+          {/* Action button */}
           <div className="pt-2">
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 rounded-2xl bg-brand-600 text-white font-black text-sm shadow-lg shadow-brand-600/30 hover:bg-brand-700 transition disabled:opacity-50"
+              className="w-full py-3.5 rounded-2xl font-black text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-400 transition shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 active:scale-98"
             >
-              {submitting ? 'Authorizing Payment...' : `Pay ₹${Number(cart.totalAmount).toFixed(2)} & Place Order`}
+              {submitting ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Authorizing via Strategy Pattern...</span>
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="w-5 h-5" />
+                  <span>Authorize & Pay ₹{grandTotal.toFixed(2)}</span>
+                </>
+              )}
             </button>
           </div>
-
         </form>
 
       </div>

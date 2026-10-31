@@ -3,8 +3,8 @@ const API_BASE = '/api';
 async function handleResponse(response) {
   if (!response.ok) {
     const errorBody = await response.json().catch(() => ({}));
-    const message = errorBody.message || 
-      (errorBody.validationErrors ? Object.values(errorBody.validationErrors).join(', ') : null) || 
+    const message = errorBody.message ||
+      (errorBody.errors ? Object.values(errorBody.errors).join(', ') : null) ||
       `Request failed with status ${response.status}`;
     throw new Error(message);
   }
@@ -12,52 +12,37 @@ async function handleResponse(response) {
 }
 
 export const api = {
-  // Products
-  getProducts: () => fetch(`${API_BASE}/products`).then(handleResponse),
-  getProductById: (id) => fetch(`${API_BASE}/products/${id}`).then(handleResponse),
-  getProductsByCategory: (category) => fetch(`${API_BASE}/products/category/${category}`).then(handleResponse),
-  getClearanceProducts: () => fetch(`${API_BASE}/products/clearance`).then(handleResponse),
-  createProduct: (data) =>
-    fetch(`${API_BASE}/products`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(handleResponse),
+  // Movies
+  getMovies: (genre, search) => {
+    const params = new URLSearchParams();
+    if (genre) params.append('genre', genre);
+    if (search) params.append('search', search);
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return fetch(`${API_BASE}/movies${query}`).then(handleResponse);
+  },
+  getMovieById: (id) => fetch(`${API_BASE}/movies/${id}`).then(handleResponse),
 
-  // Cart
-  getCart: (userId) => fetch(`${API_BASE}/cart/${userId}`).then(handleResponse),
-  addToCart: (userId, productId, quantity) =>
-    fetch(`${API_BASE}/cart`, {
+  // Showtimes & Interactive Seat Map
+  getShowtimes: () => fetch(`${API_BASE}/showtimes`).then(handleResponse),
+  getShowtimesByMovie: (movieId) => fetch(`${API_BASE}/showtimes/movie/${movieId}`).then(handleResponse),
+  getShowtimeDetails: (showtimeId) => fetch(`${API_BASE}/showtimes/${showtimeId}`).then(handleResponse),
+
+  // Bookings & Polymorphic Checkout
+  createBooking: (bookingData) =>
+    fetch(`${API_BASE}/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, productId, quantity }),
+      body: JSON.stringify(bookingData),
     }).then(handleResponse),
-  updateCartItem: (userId, productId, quantity) =>
-    fetch(`${API_BASE}/cart/${userId}/items/${productId}`, {
+  getBookingById: (id) => fetch(`${API_BASE}/bookings/${id}`).then(handleResponse),
+  getBookingByReference: (ref) => fetch(`${API_BASE}/bookings/reference/${ref}`).then(handleResponse),
+  getBookingsByCustomer: (customerId = 1) => fetch(`${API_BASE}/bookings/customer/${customerId}`).then(handleResponse),
+  getAllBookings: () => fetch(`${API_BASE}/bookings`).then(handleResponse),
+  cancelBooking: (id) =>
+    fetch(`${API_BASE}/bookings/${id}/cancel`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quantity }),
-    }).then(handleResponse),
-  removeCartItem: (userId, productId) =>
-    fetch(`${API_BASE}/cart/${userId}/items/${productId}`, {
-      method: 'DELETE',
-    }).then(handleResponse),
-  clearCart: (userId) =>
-    fetch(`${API_BASE}/cart/${userId}`, {
-      method: 'DELETE',
     }).then(handleResponse),
 
-  // Orders
-  checkout: (checkoutData) =>
-    fetch(`${API_BASE}/orders/checkout`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(checkoutData),
-    }).then(handleResponse),
-  getOrderByNumber: (orderNumber) => fetch(`${API_BASE}/orders/${orderNumber}`).then(handleResponse),
-  getOrdersByUser: (userId) => fetch(`${API_BASE}/orders/user/${userId}`).then(handleResponse),
-  getAllOrders: () => fetch(`${API_BASE}/orders`).then(handleResponse),
-
-  // Analytics & Impact
-  getImpactSummary: () => fetch(`${API_BASE}/impact/summary`).then(handleResponse),
+  // Analytics
+  getStats: () => fetch(`${API_BASE}/stats`).then(handleResponse),
 };

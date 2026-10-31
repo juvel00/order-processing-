@@ -2,69 +2,70 @@ package com.example.order.model.entity;
 
 import com.example.order.model.enums.PaymentMethod;
 import com.example.order.model.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Payment entity recording payment transactions.
+ * Payment entity recording transaction details executed via the Strategy Pattern.
  */
 @Entity
 @Table(name = "payments")
 public class Payment extends BaseEntity {
 
-    @Column(nullable = false, unique = true)
-    private String transactionId;
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking_id", nullable = false)
+    @JsonIgnore
+    private Booking booking;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
-
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
 
+    @NotNull
+    @DecimalMin(value = "0.01", message = "Amount must be greater than zero")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "payment_status", nullable = false)
     private PaymentStatus status;
 
-    @Column(nullable = false)
+    @Column(name = "transaction_id", nullable = false, unique = true)
+    private String transactionId;
+
+    @Column(name = "payment_timestamp", nullable = false)
     private LocalDateTime paymentTimestamp;
 
-    @Column(length = 500)
-    private String remarks;
+    @Column(name = "payment_details")
+    private String paymentDetails; // Masked card or UPI handle reference
 
     public Payment() {
     }
 
-    public Payment(String transactionId, Order order, PaymentMethod paymentMethod, BigDecimal amount,
-                   PaymentStatus status, String remarks) {
-        this.transactionId = transactionId;
-        this.order = order;
+    public Payment(Booking booking, PaymentMethod paymentMethod, BigDecimal amount,
+                   PaymentStatus status, String transactionId, String paymentDetails) {
+        this.booking = booking;
         this.paymentMethod = paymentMethod;
         this.amount = amount;
         this.status = status;
-        this.paymentTimestamp = LocalDateTime.now();
-        this.remarks = remarks;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+        this.paymentDetails = paymentDetails;
+        this.paymentTimestamp = LocalDateTime.now();
     }
 
-    public Order getOrder() {
-        return order;
+    public Booking getBooking() {
+        return booking;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -91,6 +92,14 @@ public class Payment extends BaseEntity {
         this.status = status;
     }
 
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
     public LocalDateTime getPaymentTimestamp() {
         return paymentTimestamp;
     }
@@ -99,11 +108,11 @@ public class Payment extends BaseEntity {
         this.paymentTimestamp = paymentTimestamp;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getPaymentDetails() {
+        return paymentDetails;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setPaymentDetails(String paymentDetails) {
+        this.paymentDetails = paymentDetails;
     }
 }

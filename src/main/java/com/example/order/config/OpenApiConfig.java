@@ -14,26 +14,27 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("FarmDirect — Direct Producer-to-Consumer Online Shopping System")
+                        .title("CineReserve — Theater Seat Booking System")
                         .version("1.0.0")
                         .description("""
-                                ### Java OOP Academic Project & UN Sustainable Development Goals (SDG) System
+                                ### Java OOP Academic Project: Enterprise Cinema Theater Seat Booking System
                                 
-                                **FarmDirect** is a pure backend online shopping system eliminating intermediate brokers to connect smallholder agricultural producers directly with end consumers.
-                                
-                                #### 🌍 UN SDG Alignment:
-                                * **SDG 2: Zero Hunger (Target 2.3)** — Direct producer remuneration (90% payout) doubling smallholder farmer income and eliminating broker cuts.
-                                * **SDG 12: Responsible Consumption and Production (Target 12.3)** — Automated dynamic freshness-saver clearance discounting to drastically cut post-harvest food waste.
+                                **CineReserve** is an enterprise-grade cinema and theater seat reservation platform engineered in Java 21 and Spring Boot 3.4.2.
                                 
                                 #### ☕ Object-Oriented Programming (OOP) Pillars:
-                                * **Encapsulation:** Domain models (`Order`, `Product`, `Cart`) encapsulate stock decrementing, price adjustments, and financial validations behind robust business methods.
-                                * **Inheritance:** `BaseEntity` mapped superclass, `User` extended by `Farmer` and `Consumer`, `Product` extended by `PerishableProduce` and `ProcessedProduce`.
-                                * **Polymorphism:** `PaymentStrategy` interface implemented dynamically by `UpiPaymentStrategy`, `CardPaymentStrategy`, and `CashOnDeliveryPaymentStrategy`; polymorphic pricing in produce hierarchy.
-                                * **Abstraction:** Service interfaces (`ProductService`, `CartService`, `OrderService`, `PaymentService`) cleanly decoupling controllers from data persistence.
+                                * **Encapsulation:** Invariants strictly guarded in `ShowtimeSeat` (preventing double reservations), `Booking.recalculateTotals()`, and bean validations (`@NotBlank`, `@NotNull`, `@Min`).
+                                * **Inheritance:** 
+                                  - `BaseEntity` mapped superclass (`id`, `createdAt`, `updatedAt`, lifecycle hooks).
+                                  - `User` hierarchy (`Customer` with loyalty perks, `TheaterAdmin` with staff badges).
+                                  - `Seat` hierarchy (`StandardSeat`, `PremiumSeat` with acoustic placement, `VipReclinerSeat` with motorized recliners & snack perks).
+                                * **Polymorphism:** 
+                                  - Polymorphic seat pricing: `Seat.calculateEffectivePrice()` dynamically evaluated per seat tier and showtime prime-time surge.
+                                  - Strategy Design Pattern: `PaymentStrategy` interface implemented dynamically by `CardPaymentStrategy`, `UpiPaymentStrategy`, and `NetBankingPaymentStrategy`.
+                                * **Abstraction:** Service interfaces (`MovieService`, `ShowtimeService`, `BookingService`, `PaymentService`, `TheaterStatsService`) cleanly shielding REST controllers from Spring Data JPA persistence.
                                 """)
                         .contact(new Contact()
-                                .name("FarmDirect Engineering")
-                                .email("farmdirect@support.example.com"))
+                                .name("CineReserve Engineering")
+                                .email("cinereserve@cinema.example.com"))
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0.html")));

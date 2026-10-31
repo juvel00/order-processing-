@@ -2,47 +2,52 @@ package com.example.order.strategy;
 
 import com.example.order.dto.PaymentRequest;
 import com.example.order.exception.PaymentProcessingException;
-import com.example.order.model.entity.Order;
+import com.example.order.model.entity.Booking;
 import com.example.order.model.enums.PaymentMethod;
 import org.springframework.stereotype.Component;
-import java.time.Year;
+
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
- * Concrete Strategy for Credit/Debit Card payments.
+ * CardPaymentStrategy implements payment validation and settlement for Credit/Debit cards.
+ * Demonstrates the Strategy Design Pattern.
  */
 @Component
 public class CardPaymentStrategy implements PaymentStrategy {
 
     @Override
-    public PaymentResult processPayment(Order order, PaymentRequest request) {
-        String cardNum = request.getCardNumber();
-        if (cardNum == null || cardNum.replaceAll("\\s|-", "").length() < 13) {
-            throw new PaymentProcessingException("Invalid card number. Must be a valid 13-19 digit card.");
+    public PaymentResult processPayment(Booking booking, PaymentRequest request) {
+        if (request.getCardNumber() == null || !request.getCardNumber().replaceAll("\\s+", "").matches("^\\d{15,19}$")) {
+            throw new PaymentProcessingException("Invalid card number. Must be between 15 and 19 digits.");
         }
 
-        Integer expiryYear = request.getExpiryYear();
-        int currentYear = Year.now().getValue();
-        if (expiryYear == null || expiryYear < currentYear) {
-            throw new PaymentProcessingException("Invalid card expiration year: " + expiryYear);
+        if (request.getCvv() == null || !request.getCvv().matches("^\\d{3,4}$")) {
+            throw new PaymentProcessingException("Invalid CVV code. Must be 3 or 4 digits.");
         }
 
-        String cvv = request.getCvv();
-        if (cvv == null || cvv.trim().length() < 3 || cvv.trim().length() > 4) {
-            throw new PaymentProcessingException("Invalid CVV: Must be 3 or 4 digits.");
+        if (request.getExpiryYear() == null || request.getExpiryMonth() == null) {
+            throw new PaymentProcessingException("Card expiration date is required.");
         }
 
-        String cleanDigits = cardNum.replaceAll("\\s|-", "");
-        String maskedCard = "****-****-****-" + cleanDigits.substring(cleanDigits.length() - 4);
-        String transactionId = "CARD-" + UUID.randomUUID().toString().substring(0, 10).toUpperCase();
-        String message = String.format("Card payment of ₹%.2f processed successfully via %s (%s) for Order #%s",
-                order.getTotalAmount(), maskedCard, request.getPaymentMethod(), order.getOrderNumber());
+        LocalDate now = LocalDate.now();
+        int currentYear = now.getYear();
+        int currentMonth = now.getMonthValue();
 
-        return new PaymentResult(true, transactionId, message);
+        if (request.getExpiryYear() < currentYear ||
+                (request.getExpiryYear() == currentYear && request.getExpiryMonth() < currentMonth)) {
+            throw new PaymentProcessingException("Card has expired.");
+        }
+
+        String rawCard = request.getCardNumber().replaceAll("\\s+", "");
+        String maskedCard = "****-****-****-" + rawCard.substring(rawCard.length() - 4);
+        String txnId = "TXN-CARD-" + UUID.randomUUID().toString().substring(0, 10).toUpperCase();
+
+        return new PaymentResult(true, txnId, "Credit/Debit Card payment authorized successfully (" + maskedCard + ")");
     }
 
     @Override
     public PaymentMethod getSupportedMethod() {
-        return PaymentMethod.CREDIT_CARD;
+        return PaymentMethod.CARD;
     }
 }

@@ -1,8 +1,7 @@
 package com.example.order.model.enums;
 
 public enum PaymentMethod {
+    CARD,
     UPI,
-    CREDIT_CARD,
-    DEBIT_CARD,
-    CASH_ON_DELIVERY
+    NET_BANKING
 }
